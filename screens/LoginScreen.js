@@ -1,18 +1,24 @@
 import { Alert, Image, KeyboardAvoidingView, StyleSheet, Text, View } from "react-native";
-import Card from "../components/Card";
-import Input from "../components/Input";
-import Button from "../components/Button";
+import Card from "../components/UI/Card";
+import Button from "../components/UI/Button";
 import { useContext, useEffect, useState } from "react";
 import { login } from "../util/http";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import LoadingOverlay from "../components/LoadingOverlay";
 import { AuthContext } from "../store/auth-context";
+import Loader from "../components/UI/Loader";
+import InputIconWithLabel from "../components/UI/InputIconWithLabel";
+
 
 function LoginScreen() {
     const [isAuth, setIsAuth] = useState(false);
     const [empCode, setEmpCode] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const authContext = useContext(AuthContext);
+
+    const toggleShowPassword = () => { 
+        setShowPassword(!showPassword); 
+    }; 
 
     function empCodeHandler(enteredText){
         setEmpCode(enteredText)
@@ -29,7 +35,8 @@ function LoginScreen() {
         if(empCodeIsValid && passwordIsValid){
             setIsAuth(true)
             const response = await login(empCode, password)
-            console.log(response);
+            
+            //console.log(response);
             if(response === 'Success'){
                 AsyncStorage.setItem('EMP_CODE', empCode);
                 AsyncStorage.setItem('PASSWORD', password);
@@ -59,31 +66,34 @@ function LoginScreen() {
     
 
     if(isAuth){
-        return <LoadingOverlay message="Logging In..." />
+        return <Loader message="Loading..."/>
     }
 
     return ( 
-        <KeyboardAvoidingView style={styles.root}>
+        <KeyboardAvoidingView style={styles.root} behavior="height">            
             <View style={styles.logoContainer}>
                 <Image source={ require('../assets/logo.png') } style={styles.logo}/>
             </View>
             <View style={styles.cardContainer}>
                 <Card>
                     <Text style={styles.title}>Login</Text>
-                    <Input 
+                    <InputIconWithLabel
                         label="Employee Code"
                         keyboardType="numeric"
                         placeholder="Enter Employee Code"
                         isPassword={false}
                         onUpdateValue={empCodeHandler}
-                        value={empCode}/>
-                    <Input 
+                        value={empCode}
+                        icon="user"/>
+                    <InputIconWithLabel 
                         label="Password"
                         keyboardType="default"
                         placeholder="Enter Password"
-                        isPassword={true}
+                        isPassword={!showPassword}
                         onUpdateValue={passwordHandler}
-                        value={password}/>
+                        value={password}
+                        icon={showPassword ? 'unlock' : 'lock'} 
+                        onIconPress={toggleShowPassword}/>
 
                     <View style={styles.buttonContainer}>
                         <Button onPress={loginHandler}>Login</Button>

@@ -20,6 +20,7 @@ export default function AuthContextProvider({children}){
     }
 
     function logout(){
+        console.log("logout");
         setAuthToken(null)
         AsyncStorage.removeItem('token');
     }

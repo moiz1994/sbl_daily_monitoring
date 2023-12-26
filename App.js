@@ -8,10 +8,9 @@ import LoginScreen from './screens/LoginScreen';
 import DashboardScreen from './screens/DashboardScreen';
 import AuthContextProvider, { AuthContext } from './store/auth-context';
 import { useContext, useEffect, useState } from 'react';
-import LoadingOverlay from './components/LoadingOverlay';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import IconButton from './components/IconButton';
-import { StyleSheet, View } from 'react-native';
+import Loader from './components/UI/Loader';
+import WorkingDateScreen from './screens/WorkingDateScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -20,7 +19,7 @@ function AuthStack() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: Colors.gray600 },
+        headerStyle: { backgroundColor: Colors.gray700 },
         headerTintColor: 'white',
         contentStyle: { backgroundColor: Colors.gray700 },
         headerShown: false,
@@ -36,7 +35,7 @@ function AuthenticatedStack() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: Colors.gray600 },
+        headerStyle: { backgroundColor: Colors.gray700 },
         headerTintColor: 'white',
         contentStyle: { backgroundColor: Colors.gray700 },        
       }}
@@ -45,23 +44,15 @@ function AuthenticatedStack() {
         name="Dashboard" 
         component={DashboardScreen} 
         options={{ 
-          title: 'SBL Daily Monitoring',
-          headerRight: ({tintColor}) => (
-            <View style={styles.menu}>            
-              <IconButton
-                icon='refresh'
-                color={tintColor}
-                size={24}
-                onPress={authContext.logout} 
-              />
-              <IconButton
-                icon='power'
-                color={tintColor}
-                size={24}
-                onPress={authContext.logout} 
-              />
-            </View>
-          ),
+          title: 'SBL Daily Monitoring',          
+        }}
+      />
+
+      <Stack.Screen
+        name='WorkingDate'
+        component={WorkingDateScreen}
+        options={{ 
+          title: 'Working Dates'
         }}
       />
     </Stack.Navigator>
@@ -69,8 +60,7 @@ function AuthenticatedStack() {
 }
 
 function Navigation(){
-  const authContext = useContext(AuthContext);
-
+  const authContext = useContext(AuthContext);  
   return (
     <NavigationContainer>
       {!authContext.isAuthenticated && <AuthStack />}
@@ -95,7 +85,7 @@ function Root(){
   }, [])
 
   if(isLoading){
-    return <LoadingOverlay />;
+    return <Loader message="Loading..."/>;
   }
   return <Navigation />;
 }
@@ -112,8 +102,3 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  menu: {
-    flexDirection: 'row'
-  }
-});

@@ -1,8 +1,8 @@
 import { StyleSheet, View } from "react-native";
 
-function Card({children}) {
+function Card({children, style}) {
     return ( 
-        <View style={styles.card}>
+        <View style={[styles.card, style]}>
             {children}
         </View>
     );
@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
         shadowOffset: {height: 2, width: 0},
         shadowOpacity: 0.7,
         shadowRadius: 8,
+        
     }
 });
 
