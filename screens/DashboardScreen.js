@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { useContext, useEffect, useLayoutEffect, useState } from "react";
-import { Alert, Image, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
 import { AuthContext } from "../store/auth-context";
 import IconButton from "../components/UI/IconButton";
 import Card from "../components/UI/Card";
@@ -15,6 +15,9 @@ import Input from "../components/UI/Input";
 import Toast from 'react-native-simple-toast';
 import LogoContainer from "../components/UI/LogoContainer";
 import { VERSION } from "../constants/Strings";
+import CustomModal from "../components/UI/CustomModal";
+import DatePickerView from "../components/UI/DatePickerView";
+import { dateFormat } from "../util/DateFormat";
 
 function DashboardScreen() {
     const nav = useNavigation();
@@ -27,69 +30,10 @@ function DashboardScreen() {
     const [userRoles, setUserRoles] = useState({});
     const [fetchedCODLimit, setFetchedCODLimit] = useState({});
     const [codLimit, setCodLimit] = useState('');
+    const [saleDiffModalVisible, setSaleDiffModalVisible] = useState(false);
 
     const tableHead = ['Date', 'COD Limit', 'Last Update'];
     const tableData = [];
-
-    function refreshHandler(){
-        setIsLoading(true);
-        setRefreshData(true);
-    }
-
-    function logoutAlert(){
-        Alert.alert(
-            "Are you sure?", 
-            "Are you sure you want to logout?",
-            [            
-                {
-                    text: "No",
-                    style: 'cancel'
-                },
-                {
-                    text: "Yes",
-                    onPress: () => authContext.logout(), 
-                },
-            ]
-        )
-    }
-
-    function codLimitChangeHandler(enteredNumber){
-        setCodLimit(enteredNumber)
-    }
-
-    async function responseCODLimit(){
-        setIsLoading(true);
-        const response = await updateCODLimit(empCode, codLimit)
-        setIsLoading(false);
-        if(response === "Success"){
-            Toast.show("COD Limit Updated Successfully!", Toast.SHORT)
-            setRefreshData(true);
-        }else{
-            Toast.show("Error While Updating COD Limit", Toast.SHORT);
-        }
-        console.log(response);
-    }
-
-    function updateCODHandler(){
-        //console.log(codLimit);
-        if(codLimit){
-            try{
-                Alert.alert(
-                    "Are You Sure?",
-                    "Are you sure you want to update COD Limit?", 
-                    [
-                        { text: "No", style: "cancel" },
-                        { text: "Yes", onPress: responseCODLimit }
-                    ]
-                )
-                
-            }catch(error){
-                console.error('Error Updating COD Limit: ', error);
-            }
-        }else{
-            Alert.alert("Invalid Input!!!", "Please enter a valid COD Limit.", [{text: "Ok"}])
-        }
-    }
 
     useLayoutEffect(() => {
         nav.setOptions({
@@ -112,8 +56,8 @@ function DashboardScreen() {
         })
     }, []);
 
-    useEffect(() => {
-        async function fillEmpCode() {
+    useEffect(() => {    
+        const fillEmpCode = async () => {
             try {
                 const empID = await AsyncStorage.getItem('EMP_CODE');
 
@@ -125,7 +69,7 @@ function DashboardScreen() {
             }
         }
 
-        async function fetchData() {
+        const fetchData = async () => {
             await fillEmpCode(); // Wait for fillEmpCode to complete before proceeding
 
             try {
@@ -165,6 +109,83 @@ function DashboardScreen() {
         }
     }, [empCode, refreshData]);
 
+    const refreshHandler = () => {
+        setIsLoading(true);
+        setRefreshData(true);
+    }
+
+    const logoutAlert = () => {
+        Alert.alert(
+            "Are you sure?", 
+            "Are you sure you want to logout?",
+            [            
+                {
+                    text: "No",
+                    style: 'cancel'
+                },
+                {
+                    text: "Yes",
+                    onPress: () => authContext.logout(), 
+                },
+            ]
+        )
+    }
+
+    const codLimitChangeHandler = (enteredNumber) => {
+        setCodLimit(enteredNumber)
+    }
+
+    const responseCODLimit = async () => {
+        setIsLoading(true);
+        const response = await updateCODLimit(empCode, codLimit)
+        setIsLoading(false);
+        if(response === "Success"){
+            Toast.show("COD Limit Updated Successfully!", Toast.SHORT)
+            setRefreshData(true);
+        }else{
+            Toast.show("Error While Updating COD Limit", Toast.SHORT);
+        }
+        console.log(response);
+    }
+
+    const updateCODHandler = () => {
+        //console.log(codLimit);
+        if(codLimit){
+            try{
+                Alert.alert(
+                    "Are You Sure?",
+                    "Are you sure you want to update COD Limit?", 
+                    [
+                        { text: "No", style: "cancel" },
+                        { text: "Yes", onPress: responseCODLimit }
+                    ]
+                )
+                
+            }catch(error){
+                console.error('Error Updating COD Limit: ', error);
+            }
+        }else{
+            Alert.alert("Invalid Input!!!", "Please enter a valid COD Limit.", [{text: "Ok"}])
+        }
+    }
+
+    function saleDiffHandler(){
+        setSaleDiffModalVisible(true);
+    }
+
+    const [selectedDate, setSelectedDate] = useState(new Date());
+
+    const handleDateChange = (date) => {
+        setSelectedDate(date);                
+    };
+
+    const saleDiffSelectHandler = (inputDate) => {
+        let forDate = dateFormat(inputDate);
+    
+        nav.navigate('SaleDifference', {
+            saleDate : forDate,
+        })
+    }
 
     if(fetchedCODLimit){
         const nonFormattedCOD = +fetchedCODLimit["LIMIT_COD"];
@@ -176,10 +197,23 @@ function DashboardScreen() {
     
     }
 
-    return ( 
+    return (     
         <ScrollView style={styles.container}>
             { isLoading && (<Loader message="Loading..."/>) }
+
+            <CustomModal 
+                isVisible={saleDiffModalVisible}             
+                title="Select Date"
+                closeModal={() => setSaleDiffModalVisible(false)}>
+                <View>
+                    <DatePickerView currentDate={selectedDate} onDateChange={handleDateChange}/>
+                    <Button style={styles.modalBtn} onPress={() => saleDiffSelectHandler(selectedDate)}>Select</Button>
+                </View>
+            </CustomModal>
+            
             <LogoContainer />
+
+            {/*         Header*/}
             <View style={styles.cardContainer}>
                 <Card>
                     <View style={styles.titleContainer}>
@@ -188,6 +222,8 @@ function DashboardScreen() {
                     </View>
                 </Card>
             </View>
+
+            {/*         Content*/}
             <View style={styles.cardContainer}>
                 <Card>
                     
@@ -202,7 +238,8 @@ function DashboardScreen() {
                         { userRoles['sale_diff'] === '1' && (
                             <GridItem 
                                 source={require('../assets/moduleIcons/sale_diff.png')} 
-                                text="Sale Difference Report"/>
+                                text="Sale Difference Report"
+                                onPress={saleDiffHandler}/>
                             )
                         }
                         { userRoles['dist_status'] === '1' && (
@@ -292,6 +329,7 @@ function DashboardScreen() {
                 </Card>
             </View>
 
+            {/*         Footer*/}
             <View style={styles.cardContainer}>
                 <Card>
                     <View style={styles.titleContainer}>
@@ -360,6 +398,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginVertical: 8,
         marginHorizontal: 10,
+    },
+
+    modalBtn: {
+        marginHorizontal: 12,
+        marginTop: 4,
+        marginBottom: 8,
     },
 });
 

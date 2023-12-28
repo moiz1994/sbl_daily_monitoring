@@ -11,6 +11,7 @@ import { useContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from './components/UI/Loader';
 import WorkingDateScreen from './screens/WorkingDateScreen';
+import SaleDifferenceScreen from './screens/SaleDifferenceScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -52,7 +53,15 @@ function AuthenticatedStack() {
         name='WorkingDate'
         component={WorkingDateScreen}
         options={{ 
-          title: 'Working Dates'
+          title: 'Working Dates Report'
+        }}
+      />
+
+      <Stack.Screen
+        name='SaleDifference'
+        component={SaleDifferenceScreen}
+        options={{ 
+          title: 'Sale Difference Dates'
         }}
       />
     </Stack.Navigator>

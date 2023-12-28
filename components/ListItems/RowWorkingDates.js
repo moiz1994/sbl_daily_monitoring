@@ -1,24 +1,11 @@
 import { StyleSheet, Text, View } from "react-native";
 import Card from "../UI/Card";
 import { Colors } from "../../constants/Colors";
-
-function parseWorkingDate(dateString) {
-    const months = {
-        JAN: 0, FEB: 1, MAR: 2, APR: 3, MAY: 4, JUN: 5,
-        JUL: 6, AUG: 7, SEP: 8, OCT: 9, NOV: 10, DEC: 11
-    };
-
-    const dateParts = dateString.split('-');
-    const day = parseInt(dateParts[0], 10);
-    const month = months[dateParts[1]];
-    const year = 2000 + parseInt(dateParts[2], 10); // Assuming 2-digit year
-
-    return new Date(year, month, day);
-}
+import { systemDateFormat } from "../../util/DateFormat";
 
 function RowWorkingDates({workingDataItem}) {
     // Convert WORKING_DATE string to a Date object
-    const workingDate = parseWorkingDate(workingDataItem.WORKING_DATE);
+    const workingDate = systemDateFormat(workingDataItem.WORKING_DATE);
     //const workingDate = new Date("26-DEC-23");
     //console.log("Working Date: ", workingDate);
 
