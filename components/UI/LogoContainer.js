@@ -1,6 +1,6 @@
 import { Image, StyleSheet, View } from 'react-native';
 
-function LogoContainer() {
+const LogoContainer = () => {
     return ( 
         <View style={styles.logoContainer}>
             <Image source={ require('../../assets/logo.png') } style={styles.logo}/>

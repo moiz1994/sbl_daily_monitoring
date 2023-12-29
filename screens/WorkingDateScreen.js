@@ -6,12 +6,12 @@ import { getWorkingDate } from "../util/http";
 import Loader from "../components/UI/Loader";
 import RowWorkingDates from "../components/ListItems/RowWorkingDates";
 
-function WorkingDateScreen() {
+const WorkingDateScreen = () => {
     const [workingDates, setWorkingDates] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        async function fetchWorkingDates(){
+        const fetchWorkingDates = async () => {
             try{
                 const response = await getWorkingDate();  
                 const parsedWorkingDates = JSON.parse(response)
@@ -27,7 +27,6 @@ function WorkingDateScreen() {
         fetchWorkingDates();    
     }, [])
 
-    //console.log(workingDates);
 
     var content = <Loader message="Loading..."/>;
     if(!isLoading){
@@ -46,17 +45,7 @@ function WorkingDateScreen() {
 
     return ( 
         <View style={styles.container}>
-            {content}
-            {/* { isLoading && (<Loader message="Loading..."/>) }
-            <LogoContainer />
-            <FlatList 
-                alwaysBounceVertical={true}
-                data={workingDates}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={(itemData) => {
-
-                }}
-            /> */}
+            {content}            
         </View>
     );
 }

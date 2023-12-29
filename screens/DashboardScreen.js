@@ -18,6 +18,7 @@ import { VERSION } from "../constants/Strings";
 import CustomModal from "../components/UI/CustomModal";
 import DatePickerView from "../components/UI/DatePickerView";
 import { dateFormat } from "../util/DateFormat";
+import { numberFormat } from "../util/Utilities";
 
 function DashboardScreen() {
     const nav = useNavigation();
@@ -181,17 +182,14 @@ function DashboardScreen() {
 
     const saleDiffSelectHandler = (inputDate) => {
         let forDate = dateFormat(inputDate);
-    
+        setSaleDiffModalVisible(false);
         nav.navigate('SaleDifference', {
             saleDate : forDate,
         })
     }
 
     if(fetchedCODLimit){
-        const nonFormattedCOD = +fetchedCODLimit["LIMIT_COD"];
-        const formattedCODLimit = nonFormattedCOD.toLocaleString('en-US', {            
-            minimumFractionDigits: 0,
-        });
+        const formattedCODLimit = numberFormat(fetchedCODLimit['LIMIT_COD']);
         const COD_LIMIT = [fetchedCODLimit["CREATION_DATE"], formattedCODLimit, fetchedCODLimit["USER_FULL_NAME"]]
         tableData.push(COD_LIMIT);
     

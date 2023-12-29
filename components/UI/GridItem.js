@@ -1,7 +1,7 @@
 import React from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
-function GridItem({ source, text, onPress }) {
+const GridItem = ({ source, text, onPress }) => {
     return (
         <Pressable style={styles.gridItem} onPress={onPress}>
             <Image source={source} style={styles.image} />

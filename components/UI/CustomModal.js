@@ -3,7 +3,7 @@ import { Colors } from "../../constants/Colors";
 import IconButton from "./IconButton";
 
 
-function CustomModal({isVisible, children, title, closeModal}) {
+const CustomModal = ({isVisible, children, title, closeModal}) => {
     
     return ( 
         <View style={[styles.centeredView]}>

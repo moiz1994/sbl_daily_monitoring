@@ -9,7 +9,7 @@ import Loader from "../components/UI/Loader";
 import InputIconWithLabel from "../components/UI/InputIconWithLabel";
 
 
-function LoginScreen() {
+const LoginScreen = () => {
     const [isAuth, setIsAuth] = useState(false);
     const [empCode, setEmpCode] = useState('');
     const [password, setPassword] = useState('');
@@ -20,15 +20,15 @@ function LoginScreen() {
         setShowPassword(!showPassword); 
     }; 
 
-    function empCodeHandler(enteredText){
+    const empCodeHandler = (enteredText) => {
         setEmpCode(enteredText)
     }
 
-    function passwordHandler(enteredText){
+    const passwordHandler = (enteredText) => {
         setPassword(enteredText)
     }
 
-    async function loginHandler(){
+    const loginHandler = async () => {
         const empCodeIsValid = empCode.length == 8;
         const passwordIsValid = password.length > 6;
 
@@ -52,7 +52,7 @@ function LoginScreen() {
     }
 
     useEffect(() => {
-        async function preFillInputHandler(){
+        const preFillInputHandler = async () => {
             const empID = await AsyncStorage.getItem('EMP_CODE');
     
             if (empID){

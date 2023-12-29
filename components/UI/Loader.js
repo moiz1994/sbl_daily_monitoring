@@ -2,16 +2,11 @@ import LottieView from "lottie-react-native";
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 
 
-function Loader({message}) {
+const Loader = ({message}) => {
     return ( 
         <View style={[StyleSheet.absoluteFillObject, styles.container]}>
             <ActivityIndicator size="large" color="white" />
             <Text style={styles.message}>{message}</Text>
-            {/* <LottieView 
-                source={ require("../../assets/loading_animation.json") } 
-                autoPlay
-                loop
-            /> */}
         </View>
     );
 }

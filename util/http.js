@@ -1,6 +1,6 @@
 import { LINK, PATH } from "../constants/Strings";
 
-export async function login(empCode, password){    
+export const login = async (empCode, password) => {
     const url = LINK + PATH + "login.php";
     const data = {
         "EMP_CODE": empCode,
@@ -18,7 +18,7 @@ export async function login(empCode, password){
     return response.text();
 }
 
-export async function getEmpProfile(empCode){
+export const getEmpProfile = async (empCode) => {
     const url = LINK + PATH + "emp_profile.php";
     const data = {
         "EMP_ID": empCode,
@@ -35,7 +35,7 @@ export async function getEmpProfile(empCode){
     return response.text();
 }
 
-export async function getUserRoles(empCode){
+export const getUserRoles = async (empCode) => {
     const url = LINK + PATH + "user_roles.php";
     const data = {
         "EMP_ID": empCode,
@@ -52,7 +52,7 @@ export async function getUserRoles(empCode){
     return response.text();
 }
 
-export async function getCOD(){
+export const getCOD = async () => {
     const url = LINK + PATH + "get_cod_limit.php";
     
     const response = await fetch(url, {
@@ -66,7 +66,7 @@ export async function getCOD(){
     return response.text();
 }
 
-export async function updateCODLimit(empCode, value){
+export const updateCODLimit = async (empCode, value) => {
     const url = LINK + PATH + "update_cod_limit.php";
     
     const data = {
@@ -86,7 +86,7 @@ export async function updateCODLimit(empCode, value){
     return response.text();
 }
 
-export async function getWorkingDate(){
+export const getWorkingDate = async () => {
     const url = LINK + PATH + "get_working_date.php";
     
     const response = await fetch(url, {
@@ -94,6 +94,23 @@ export async function getWorkingDate(){
         headers: {
             "Content-Type": "application/json charset=utf-8",
         },        
+    }).catch(error => {
+        console.log(error);
+    });
+    return response.text();
+}
+
+export const getSaleDifference = async (saleDate) => {
+    const url = LINK + PATH + "get_sale_difference.php";
+    const data = {
+        "SALE_DATE": saleDate,
+    };
+    const response = await fetch(url, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            "Content-Type": "application/json charset=utf-8",
+        },
+        body: JSON.stringify(data),
     }).catch(error => {
         console.log(error);
     });

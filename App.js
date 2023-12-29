@@ -16,7 +16,7 @@ import SaleDifferenceScreen from './screens/SaleDifferenceScreen';
 
 const Stack = createNativeStackNavigator();
 
-function AuthStack() {
+const AuthStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -31,7 +31,7 @@ function AuthStack() {
   );
 }
 
-function AuthenticatedStack() {
+const AuthenticatedStack = () => {
   const authContext = useContext(AuthContext);
   return (
     <Stack.Navigator
@@ -68,7 +68,7 @@ function AuthenticatedStack() {
   );
 }
 
-function Navigation(){
+const Navigation = () => {
   const authContext = useContext(AuthContext);  
   return (
     <NavigationContainer>
@@ -78,7 +78,7 @@ function Navigation(){
   );
 }
 
-function Root(){
+const Root = () => {
   const [isLoading, setIsLoading] = useState(true);
   const authContext = useContext(AuthContext);
   useEffect(() => {

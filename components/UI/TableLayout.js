@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native';
 
-function TableLayout({
+const TableLayout = ({
     headers,
     data,
     tableStyle,
@@ -10,7 +10,7 @@ function TableLayout({
     rowStyle,
     cellStyle,
     cellTextStyle
-}) {
+}) => {
     return ( 
         <View style={[styles.table, tableStyle]}>
             {/* Table Headers */}

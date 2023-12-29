@@ -4,21 +4,20 @@ import { Colors } from "../../constants/Colors";
 import { useState } from "react";
 import DateTimePicker from '@react-native-community/datetimepicker'
 
-function DatePickerView({currentDate, onDateChange }) {
+const DatePickerView = ({currentDate, onDateChange }) => {
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date(currentDate));
 
-    function showDatePickerHandler(){
+    const showDatePickerHandler = () => {
         setShowDatePicker(true);
     };
 
-    function hideDatePickerHandler(){
-
+    const hideDatePickerHandler = () => {
         setShowDatePicker(false);
     };
 
-    function handleDateChange(event, date){
-        setShowDatePicker(false);
+    const handleDateChange = (event, date) => {
+        hideDatePickerHandler();
         if (date !== undefined && event.type === 'set') {
             setSelectedDate(date);
             onDateChange(date); // Notify the parent component about the selected date            

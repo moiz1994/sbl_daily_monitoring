@@ -2,7 +2,7 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import { Colors } from "../../constants/Colors";
 import { AntDesign } from '@expo/vector-icons';
 
-function InputIconWithLabel({label, keyboardType, placeholder, onUpdateValue, value, isPassword, icon, onIconPress}) {
+const InputIconWithLabel = ({label, keyboardType, placeholder, onUpdateValue, value, isPassword, icon, onIconPress}) => {
     return ( 
         <View style={styles.root}>
             <Text style={styles.label}>{label}</Text>

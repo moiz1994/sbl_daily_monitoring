@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
 
-function Card({children, style}) {
+const Card = ({children, style}) => {
     return ( 
         <View style={[styles.card, style]}>
             {children}

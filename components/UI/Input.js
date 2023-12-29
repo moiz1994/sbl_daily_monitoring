@@ -1,7 +1,7 @@
 import { StyleSheet, TextInput, View } from "react-native";
 import { Colors } from "../../constants/Colors";
 
-function Input({inputMode, keyboardType, placeholder, value, style, onChange}) {
+const Input = ({inputMode, keyboardType, placeholder, value, style, onChange}) => {
     return ( 
         <View style={styles.root}>
             <TextInput 
