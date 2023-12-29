@@ -12,8 +12,8 @@ const Input = ({inputMode, keyboardType, placeholder, value, style, onChange}) =
                 placeholder={placeholder}
                 placeholderTextColor={Colors.gray100}
                 value={value}
-                onChangeText={onChange}/>
-                
+                onChangeText={onChange}
+                clearButtonMode="always"/>
         </View>
     );
 }

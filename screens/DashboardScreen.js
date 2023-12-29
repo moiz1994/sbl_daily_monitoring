@@ -192,7 +192,6 @@ function DashboardScreen() {
         const formattedCODLimit = numberFormat(fetchedCODLimit['LIMIT_COD']);
         const COD_LIMIT = [fetchedCODLimit["CREATION_DATE"], formattedCODLimit, fetchedCODLimit["USER_FULL_NAME"]]
         tableData.push(COD_LIMIT);
-    
     }
 
     return (     
@@ -243,7 +242,8 @@ function DashboardScreen() {
                         { userRoles['dist_status'] === '1' && (
                             <GridItem 
                                 source={require('../assets/moduleIcons/dist_status.png')} 
-                                text="Distributor Status"/>
+                                text="Distributor Status"
+                                onPress={() => {nav.navigate("DistStatus")}}/>
                             )
                         }
                     </View>

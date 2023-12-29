@@ -35,6 +35,7 @@ const SaleDifferenceScreen = () => {
         content = (
             <>
                 <LogoContainer />
+                <Text style={styles.dateText}>Dated On: {saleDate}</Text>
                 <FlatList 
                     alwaysBounceVertical={true}
                     data={saleDiff}
@@ -60,12 +61,12 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.gray700,
     },
 
-    centeredView: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 22,
-    },
+    dateText: {
+        marginTop: 8,
+        marginHorizontal: 12,
+        color: "white",
+        fontSize: 18,        
+    }
 });
 
 

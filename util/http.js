@@ -116,3 +116,17 @@ export const getSaleDifference = async (saleDate) => {
     });
     return response.text();
 }
+
+export const getDistributorList = async () => {
+    const url = LINK + PATH + "get_distributor_list.php";
+    
+    const response = await fetch(url, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            "Content-Type": "application/json charset=utf-8",
+        },        
+    }).catch(error => {
+        console.log(error);
+    });
+    return response.text();
+}

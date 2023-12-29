@@ -12,6 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from './components/UI/Loader';
 import WorkingDateScreen from './screens/WorkingDateScreen';
 import SaleDifferenceScreen from './screens/SaleDifferenceScreen';
+import DistributorStatusScreen from './screens/DistributorStatusScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -61,7 +62,15 @@ const AuthenticatedStack = () => {
         name='SaleDifference'
         component={SaleDifferenceScreen}
         options={{ 
-          title: 'Sale Difference Dates'
+          title: 'Sale Difference Report'
+        }}
+      />
+
+      <Stack.Screen
+        name='DistStatus'
+        component={DistributorStatusScreen}
+        options={{ 
+          title: 'Distributor Active Status'
         }}
       />
     </Stack.Navigator>

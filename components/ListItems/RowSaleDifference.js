@@ -4,16 +4,18 @@ import Card from '../UI/Card';
 import { numberFormat } from "../../util/Utilities";
 
 const RowSaleDifference = ({dataItem}) => {
+    
+    const {DESCP, VIEWSALE_QTY, DADB_QTY, TEMPVS_QTY} = dataItem;
 
-    const description = dataItem.DESCP;
+    const description = DESCP;
 
-    const viewSaleQty = dataItem.VIEWSALE_QTY;
+    const viewSaleQty = VIEWSALE_QTY;
     const fViewSaleQty = numberFormat(viewSaleQty);
 
-    const dadbQty = dataItem.DADB_QTY;
+    const dadbQty = DADB_QTY;
     const fDadbQty = numberFormat(dadbQty);
 
-    const tempQty = dataItem.TEMPVS_QTY;
+    const tempQty = TEMPVS_QTY;
     const fTempQty = numberFormat(tempQty);
 
     const dadbQtyDiff = viewSaleQty - dadbQty;

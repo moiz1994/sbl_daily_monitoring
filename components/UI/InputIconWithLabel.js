@@ -18,6 +18,7 @@ const InputIconWithLabel = ({label, keyboardType, placeholder, onUpdateValue, va
                     onChangeText={onUpdateValue}
                     value={value}
                     secureTextEntry={isPassword}
+                    clearButtonMode="always"
                 />
             </View>
         </View>
