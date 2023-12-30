@@ -1,7 +1,8 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Colors } from "../../constants/Colors";
+import LabelText from "../UI/LabelText";
 
-const RowDistList = ({dataItem}) => {
+const RowDistList = ({dataItem, onPress}) => {
 
     const {CUSTOMER_CODE, CUSTOMER_NAME, ACTIVE} = dataItem;
     
@@ -13,19 +14,12 @@ const RowDistList = ({dataItem}) => {
     }
 
     return (
-        <Pressable style={({ pressed }) => [styles.root, pressed && styles.pressed]}>
-            <View style={styles.innerView}>
-                <View style={styles.labelView}>
-                    <Text style={styles.label}>Distributor ID: </Text>
-                    <Text>{CUSTOMER_CODE}</Text>
-                </View>
+        <Pressable style={({ pressed }) => [styles.root, pressed && styles.pressed]} onPress={onPress}>
+            <View style={styles.innerView}>              
+                <LabelText label="Distributor ID" text={CUSTOMER_CODE} longText={false} />
                 <Text style={statusStyle}>{status}</Text>
             </View>
-            
-            <View style={styles.labelView}>
-                <Text style={styles.label}>Distributor Name: </Text>
-                <Text numberOfLines={2} ellipsizeMode="tail" style={styles.distributorName}>{CUSTOMER_NAME}</Text>
-            </View>
+            <LabelText label="Distributor Name" text={CUSTOMER_NAME}  longText={true} />
         </Pressable>
     );
 }
@@ -43,17 +37,6 @@ const styles = StyleSheet.create({
     innerView: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-    },
-    labelView: {        
-        flexDirection: 'row',
-    },
-    label: {
-        fontWeight: 'bold',
-        color: Colors.gray700,
-    },
-    distributorName: {
-        flex: 1,
-        // Add any additional styles for the distributor name if needed
     },
     active: {
         backgroundColor: Colors.green500,

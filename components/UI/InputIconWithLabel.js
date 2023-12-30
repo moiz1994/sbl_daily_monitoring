@@ -11,7 +11,7 @@ const InputIconWithLabel = ({label, keyboardType, placeholder, onUpdateValue, va
                 <AntDesign name={icon} color={Colors.gray600} size={24} onPress={onIconPress}/>
                 <TextInput 
                     cursorColor={Colors.gray600}
-                    keyboardType={keyboardType}
+                    keyboardType={keyboardType}//default, number-pad, decimal-pad, numeric, email-address, phone-pad, url, ascii-capable, numbers-and-punctuation, name-phone-pad, twitter, web-search, decimal-pad
                     maxLength={8}
                     placeholder={placeholder}
                     style={styles.input}

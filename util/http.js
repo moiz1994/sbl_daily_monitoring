@@ -130,3 +130,22 @@ export const getDistributorList = async () => {
     });
     return response.text();
 }
+
+export const updateDistributorStatus = async (distCode, remarks, status) => {
+    const url = LINK + PATH + "update_distribution_status.php";
+    const data = {
+        "CUSTOMER_ID": distCode,
+        "REMARKS": remarks,
+        "ACTIVE_STATUS": status,
+    };
+    const response = await fetch(url, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            "Content-Type": "application/json charset=utf-8",
+        },
+        body: JSON.stringify(data),
+    }).catch(error => {
+        console.log(error);
+    });
+    return response.text();
+}

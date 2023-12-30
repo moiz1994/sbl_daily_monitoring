@@ -6,24 +6,26 @@ import { getDistributorList } from "../util/http";
 import Loader from "../components/UI/Loader";
 import RowDistList from "../components/ListItems/RowDistList";
 import filter from 'lodash.filter';
+import { useNavigation } from "@react-navigation/native";
 
-const DistributorStatusScreen = () => {
+const DistributorScreen = () => {
     const [distList, setDistList] = useState([]);
     const [distListFull, setDistListFull] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
+    const nav = useNavigation();
 
     const searchHandler = (enteredText) => {
         setSearchQuery(enteredText);
         const formattedQuery = enteredText.toLowerCase();
-        const filteredData = filter(distListFull, (data) => {
+        const filteredData = filter(distListFull, (data) => {               
             return contains(data, formattedQuery);
         });
         setDistList(filteredData);
     }
     
-    const contains = ({CUSTOMER_CODE, CUSTOMER_NAME}, query) => {
-        if(CUSTOMER_CODE.includes(query) || CUSTOMER_NAME.includes(query)){
+    const contains = ({CUSTOMER_CODE, CUSTOMER_NAME}, query) => {                
+        if(CUSTOMER_CODE.includes(query) || CUSTOMER_NAME.toLowerCase().includes(query)){
             return true;
         }
         return false;
@@ -52,14 +54,18 @@ const DistributorStatusScreen = () => {
         return <Loader message="Loading..." />;
     }
 
+    const onItemPressHandler = (item) => {
+        nav.navigate("DistDetail", { distributorData: item });
+    }
+
     return (        
         <View style={styles.root}>
             <LogoContainer />
             <SearchView value={searchQuery} onChangeText={searchHandler}/>
             <FlatList
                 data={distList}
-                keyExtractor={(item) => item.CUSTOMER_CODE}
-                renderItem={(itemData) => <RowDistList dataItem={itemData.item}/>}
+                keyExtractor={(item, index) => item.CUSTOMER_CODE}
+                renderItem={(itemData) => <RowDistList dataItem={itemData.item} onPress={() => onItemPressHandler(itemData.item)}/>}
             />
         </View>
     );
@@ -71,4 +77,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default DistributorStatusScreen;
+export default DistributorScreen;

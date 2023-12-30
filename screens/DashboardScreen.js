@@ -137,34 +137,32 @@ function DashboardScreen() {
     }
 
     const responseCODLimit = async () => {
-        setIsLoading(true);
-        const response = await updateCODLimit(empCode, codLimit)
-        setIsLoading(false);
-        if(response === "Success"){
-            Toast.show("COD Limit Updated Successfully!", Toast.SHORT)
-            setRefreshData(true);
-        }else{
-            Toast.show("Error While Updating COD Limit", Toast.SHORT);
+        try{
+            setIsLoading(true);
+            const response = await updateCODLimit(empCode, codLimit)
+            setIsLoading(false);
+            if(response === "Success"){
+                Toast.show("COD Limit Updated Successfully!", Toast.SHORT)
+                setRefreshData(true);
+            }else{
+                Toast.show("Error While Updating COD Limit", Toast.SHORT);
+            }
+        }catch(error){
+            console.error('Error Updating COD Limit: ', error);
         }
-        console.log(response);
     }
 
     const updateCODHandler = () => {
         //console.log(codLimit);
-        if(codLimit){
-            try{
-                Alert.alert(
-                    "Are You Sure?",
-                    "Are you sure you want to update COD Limit?", 
-                    [
-                        { text: "No", style: "cancel" },
-                        { text: "Yes", onPress: responseCODLimit }
-                    ]
-                )
-                
-            }catch(error){
-                console.error('Error Updating COD Limit: ', error);
-            }
+        if(codLimit){        
+            Alert.alert(
+                "Are You Sure?",
+                "Are you sure you want to update COD Limit?", 
+                [
+                    { text: "No", style: "cancel" },
+                    { text: "Yes", onPress: responseCODLimit }
+                ]
+            )
         }else{
             Alert.alert("Invalid Input!!!", "Please enter a valid COD Limit.", [{text: "Ok"}])
         }

@@ -7,8 +7,8 @@ const Input = ({inputMode, keyboardType, placeholder, value, style, onChange}) =
             <TextInput 
                 style={[styles.inputText, style]}
                 cursorColor={Colors.gray700}
-                inputMode={inputMode} //  "numeric"
-                keyboardType={keyboardType} //"number-pad"
+                inputMode={inputMode} //  "numeric", "text", "none", "decimal", "tel", "search", "email", "url"                
+                keyboardType={keyboardType} //default, number-pad, decimal-pad, numeric, email-address, phone-pad, url, ascii-capable, numbers-and-punctuation, name-phone-pad, twitter, web-search, decimal-pad
                 placeholder={placeholder}
                 placeholderTextColor={Colors.gray100}
                 value={value}
@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 2,
         fontSize: 14,
         marginRight: 8,
+        height: 40,
     },  
 });
 

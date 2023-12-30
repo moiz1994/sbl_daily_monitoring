@@ -6,7 +6,7 @@ import IconButton from "./IconButton";
 const CustomModal = ({isVisible, children, title, closeModal}) => {
     
     return ( 
-        <View style={[styles.centeredView]}>
+        <View style={styles.centeredView}>
             <Modal 
                 animationType="slide" 
                 transparent={true} 
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     centeredView: {
         flex: 1,
         justifyContent: 'center',
-        marginTop: 22,        
+        marginTop: 22,           
     },
     modalView: {
         margin: 20,
