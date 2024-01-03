@@ -5,19 +5,27 @@ import Card from '../components/UI/Card';
 import { Colors } from "../constants/Colors";
 import LabelText from "../components/UI/LabelText";
 import Button from '../components/UI/Button';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomModal from "../components/UI/CustomModal";
 import { updateDistributorStatus } from "../util/http";
 import Loader from "../components/UI/Loader";
 import Toast from 'react-native-simple-toast';
+import NetInfo from '@react-native-community/netinfo';
 
 const DistributorDetailScreen = () => {
     const route = useRoute();
     const nav = useNavigation();
 
+    const [isOnline, setIsOnline] = useState(false);
     const [modalIsVisible, setModalIsVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [remarks, setRemarks] = useState("");
+
+    useEffect(() => {
+        NetInfo.fetch().then((state) => {
+            setIsOnline(state.isConnected);
+        });
+    }, [isOnline, setIsOnline]);
     
     const {distributorData} = route.params;
     const {
@@ -68,19 +76,23 @@ const DistributorDetailScreen = () => {
     const responseUpdateStatus = async () => {
         try{
             setIsLoading(true);
-            const response = await updateDistributorStatus(CUSTOMER_CODE, remarks, distStatus)
-            setIsLoading(false);
-            if(response === "Success"){
-                Toast.show("Distributor Status Updated Successfully", Toast.LONG);
-                //nav.navigate("Dashboard");
-                nav.reset({
-                    index: 0,
-                    routes: [{ name: 'Dashboard' }],
-                })
+            if(isOnline){
+                const response = await updateDistributorStatus(CUSTOMER_CODE, remarks, distStatus)
+                
+                if(response === "Success"){
+                    Toast.show("Distributor Status Updated Successfully", Toast.LONG);                    
+                    nav.reset({
+                        index: 0,
+                        routes: [{ name: 'Dashboard' }],
+                    })
+                }else{
+                    Toast.show(response, Toast.LONG);
+                    console.log(response)
+                }
             }else{
-                Toast.show(response, Toast.LONG);
-                console.log(response)
+                Alert.alert("No Internet Connection", "Please check your internet connection and try again.")
             }
+            setIsLoading(false);
         }catch(error){
             console.error('Error Updating Distributor Status: ', error);
         }

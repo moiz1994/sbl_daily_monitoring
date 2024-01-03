@@ -7,14 +7,22 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../store/auth-context";
 import Loader from "../components/UI/Loader";
 import InputIconWithLabel from "../components/UI/InputIconWithLabel";
+import NetInfo from '@react-native-community/netinfo';
 
 
 const LoginScreen = () => {
+    const [isOnline, setIsOnline] = useState(false);
     const [isAuth, setIsAuth] = useState(false);
     const [empCode, setEmpCode] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const authContext = useContext(AuthContext);
+
+    useEffect(() => {
+        NetInfo.fetch().then((state) => {
+            setIsOnline(state.isConnected);
+        });
+    }, [setIsOnline, isOnline]);
 
     const toggleShowPassword = () => { 
         setShowPassword(!showPassword); 
@@ -34,15 +42,19 @@ const LoginScreen = () => {
 
         if(empCodeIsValid && passwordIsValid){
             setIsAuth(true)
-            const response = await login(empCode, password)
-            
-            //console.log(response);
-            if(response === 'Success'){
-                AsyncStorage.setItem('EMP_CODE', empCode);
-                AsyncStorage.setItem('PASSWORD', password);
-                authContext.authenticate(response);
-            }else{                
-                Alert.alert("Login Failed!!!", "Invalid Employee Code or Password. Please try again with correct credentials")
+            if(isOnline){
+                const response = await login(empCode, password)
+                
+                //console.log(response);
+                if(response === 'Success'){
+                    AsyncStorage.setItem('EMP_CODE', empCode);
+                    AsyncStorage.setItem('PASSWORD', password);
+                    authContext.authenticate(response);
+                }else{                
+                    Alert.alert("Login Failed!!!", "Invalid Employee Code or Password. Please try again with correct credentials")
+                }
+            }else{
+                Alert.alert("No Internet Connection", "Please check your internet connection and try again.")
             }
             setIsAuth(false);
         }else{

@@ -19,11 +19,13 @@ import CustomModal from "../components/UI/CustomModal";
 import DatePickerView from "../components/UI/DatePickerView";
 import { dateFormat } from "../util/DateFormat";
 import { numberFormat } from "../util/Utilities";
+import NetInfo from '@react-native-community/netinfo';
 
-function DashboardScreen() {
+const DashboardScreen = () => {
     const nav = useNavigation();
     const authContext = useContext(AuthContext);
-
+    
+    const [inOnline, setIsOnline] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [refreshData, setRefreshData] = useState(true);
     const [empCode, setEmpCode] = useState('');
@@ -70,44 +72,53 @@ function DashboardScreen() {
             }
         }
 
-        const fetchData = async () => {
-            await fillEmpCode(); // Wait for fillEmpCode to complete before proceeding
-
-            try {
-                if (empCode) {
-                    const [empProfileResponse, userRolesResponse, codLimitResponse] = await Promise.all([
-                        getEmpProfile(empCode),
-                        getUserRoles(empCode),
-                        getCOD(),
-                    ]);
-                
-                    const parsedEmpProfile = JSON.parse(empProfileResponse);
-                    setEmpProfile(parsedEmpProfile[0] || {});
-                    //console.log(parsedEmpProfile);
-                
-                    const parsedUserRoles = JSON.parse(userRolesResponse);
-                    setUserRoles(parsedUserRoles[0] || {});
-                    //console.log(parsedUserRoles);
-                
-                    const parsedCodLimit = JSON.parse(codLimitResponse);
-                    setFetchedCODLimit(parsedCodLimit[0] || {});
-                    //console.log(parsedCodLimit);
-
-                    setIsLoading(false);
+        NetInfo.addEventListener(state => {
+            if(state.isConnected){
+                const fetchData = async () => {
+                    await fillEmpCode(); // Wait for fillEmpCode to complete before proceeding
+    
+                    try {
+                        if (empCode) {
+                            const [empProfileResponse, userRolesResponse, codLimitResponse] = await Promise.all([
+                                getEmpProfile(empCode),
+                                getUserRoles(empCode),
+                                getCOD(),
+                            ]);
+                        
+                            const parsedEmpProfile = JSON.parse(empProfileResponse);
+                            setEmpProfile(parsedEmpProfile[0] || {});
+                            //console.log(parsedEmpProfile);
+                        
+                            const parsedUserRoles = JSON.parse(userRolesResponse);
+                            setUserRoles(parsedUserRoles[0] || {});
+                            //console.log(parsedUserRoles);
+                        
+                            const parsedCodLimit = JSON.parse(codLimitResponse);
+                            setFetchedCODLimit(parsedCodLimit[0] || {});
+                            //console.log(parsedCodLimit);
+    
+                            setIsLoading(false);
+                        }
+                    } catch (error) {
+                        console.error('Error fetching data:', error);
+                        setIsLoading(false);
+                    }
                 }
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                setIsLoading(false);
+            
+                //fetchData();
+                if(refreshData){
+                    fetchData().finally(() => {
+                        setRefreshData(false);               
+                    });
+                    //setRefreshData(false);
+                }
+            }else{
+                Alert.alert("No Internet Connection", "Please check your internet connection and try again.")
             }
-        }
+            setIsOnline(state.isConnected);
+        })
 
-        //fetchData();
-        if(refreshData){
-            fetchData().finally(() => {
-                setRefreshData(false);               
-            });
-            //setRefreshData(false);
-        }
+        
     }, [empCode, refreshData]);
 
     const refreshHandler = () => {
@@ -137,16 +148,21 @@ function DashboardScreen() {
     }
 
     const responseCODLimit = async () => {
-        try{
+        try{            
             setIsLoading(true);
-            const response = await updateCODLimit(empCode, codLimit)
-            setIsLoading(false);
-            if(response === "Success"){
-                Toast.show("COD Limit Updated Successfully!", Toast.SHORT)
-                setRefreshData(true);
+            if(inOnline){
+                const response = await updateCODLimit(empCode, codLimit)
+                if(response === "Success"){
+                    Toast.show("COD Limit Updated Successfully!", Toast.SHORT)
+                    setRefreshData(true);
+                }else{
+                    Toast.show("Error While Updating COD Limit", Toast.SHORT);
+                }
             }else{
-                Toast.show("Error While Updating COD Limit", Toast.SHORT);
+                Alert.alert("No Internet Connection", "Please check your internet connection and try again.");
             }
+            setIsLoading(false);
+            
         }catch(error){
             console.error('Error Updating COD Limit: ', error);
         }
@@ -250,7 +266,8 @@ function DashboardScreen() {
                         { userRoles['sale_date'] === '1' && (
                             <GridItem 
                                 source={require('../assets/moduleIcons/sale_date.png')} 
-                                text="Sale Date"/>
+                                text="Sale Date"
+                                onPress={() => nav.navigate("SaleDate")}/>
                             )
                         }
                         { userRoles['active_session'] === '1' && (

@@ -14,6 +14,7 @@ import WorkingDateScreen from './screens/WorkingDateScreen';
 import SaleDifferenceScreen from './screens/SaleDifferenceScreen';
 import DistributorScreen from './screens/DistributorScreen';
 import DistributorDetailScreen from './screens/DistributorDetailScreen';
+import SaleDateScreen from './screens/SaleDateScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -37,6 +38,7 @@ const AuthenticatedStack = () => {
   const authContext = useContext(AuthContext);
   return (
     <Stack.Navigator
+      initialRouteName='Dashboard'
       screenOptions={{
         headerStyle: { backgroundColor: Colors.gray700 },
         headerTintColor: 'white',
@@ -45,9 +47,9 @@ const AuthenticatedStack = () => {
     >
       <Stack.Screen 
         name="Dashboard" 
-        component={DashboardScreen} 
+        component={DashboardScreen}
         options={{ 
-          title: 'SBL Daily Monitoring',          
+          title: 'SBL Daily Monitoring',
         }}
       />
 
@@ -80,6 +82,14 @@ const AuthenticatedStack = () => {
         component={DistributorDetailScreen}
         options={{ 
           title: 'Distributor Details'
+        }}
+      />
+
+      <Stack.Screen
+        name='SaleDate'
+        component={SaleDateScreen}
+        options={{ 
+          title: 'Sale Date'
         }}
       />
     </Stack.Navigator>

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { getSaleDifference } from "../util/http";
 import Loader from "../components/UI/Loader";
 import RowSaleDifference from "../components/ListItems/RowSaleDifference";
+import NetInfo from '@react-native-community/netinfo';
 
 const SaleDifferenceScreen = () => {
     const route = useRoute();
@@ -14,20 +15,26 @@ const SaleDifferenceScreen = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const fetchSaleDifference = async () => {
-            try {
-                const response = await getSaleDifference(saleDate);
-                const parsedResponse = JSON.parse(response);
-                setSaleDiff(parsedResponse);                
-            } catch (error) {
-                console.log("Error SaleDiff: ", error);
-                Alert("Error!!!", "Error While Loading Sale Difference Report. Please try again later.");
-            }finally{
-                setIsLoading(false);
+        NetInfo.addEventListener(state => {
+            if(state.isConnected){
+                const fetchSaleDifference = async () => {
+                    try {
+                        const response = await getSaleDifference(saleDate);
+                        const parsedResponse = JSON.parse(response);
+                        setSaleDiff(parsedResponse);                
+                    } catch (error) {
+                        console.log("Error SaleDiff: ", error);
+                        Alert("Error!!!", "Error While Loading Sale Difference Report. Please try again later.");
+                    }finally{
+                        setIsLoading(false);
+                    }
+                }
+                
+                fetchSaleDifference();
+            }else{
+                Alert.alert("No Internet Connection", "Please check your internet connection and try again.")
             }
-        }
-        
-        fetchSaleDifference();
+        })
     }, []);
 
     let content = <Loader message="Loading..." />;

@@ -7,8 +7,9 @@ import Loader from "../components/UI/Loader";
 import RowDistList from "../components/ListItems/RowDistList";
 import filter from 'lodash.filter';
 import { useNavigation } from "@react-navigation/native";
+import NetInfo from '@react-native-community/netinfo';
 
-const DistributorScreen = () => {
+const DistributorScreen = () => {    
     const [distList, setDistList] = useState([]);
     const [distListFull, setDistListFull] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -33,21 +34,27 @@ const DistributorScreen = () => {
     
 
     useEffect(() => {
-        const fetchDistList = async () => {
-            try {
-                const response = await getDistributorList();
-                const parsedResponse = JSON.parse(response);
-                setDistList(parsedResponse);
-                setDistListFull(parsedResponse);
-            } catch (error) {
-                console.log("DistListError: ", error);
-                Alert.alert("Error!!!", "Error While Loading Distributors List. Please try again later.")
-            }finally{
-                setIsLoading(false);
+        NetInfo.addEventListener(state => {
+            if(state.isConnected){
+                const fetchDistList = async () => {
+                    try {
+                        const response = await getDistributorList();
+                        const parsedResponse = JSON.parse(response);
+                        setDistList(parsedResponse);
+                        setDistListFull(parsedResponse);
+                    } catch (error) {
+                        console.log("DistListError: ", error);
+                        Alert.alert("Error!!!", "Error While Loading Distributors List. Please try again later.")
+                    }finally{
+                        setIsLoading(false);
+                    }
+                }
+                
+                fetchDistList();
+            }else{
+                Alert.alert("No Internet Connection", "Please check your internet connection and try again.");
             }
-        }
-        
-        fetchDistList();
+        })
     }, []);
 
     if(isLoading){
