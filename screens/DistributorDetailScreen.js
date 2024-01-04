@@ -11,6 +11,7 @@ import { updateDistributorStatus } from "../util/http";
 import Loader from "../components/UI/Loader";
 import Toast from 'react-native-simple-toast';
 import NetInfo from '@react-native-community/netinfo';
+import BreadCrums from '../components/UI/BreadCrums';
 
 const DistributorDetailScreen = () => {
     const route = useRoute();
@@ -104,7 +105,7 @@ const DistributorDetailScreen = () => {
     
     return (
         <View style={styles.container}>      
-            <LogoContainer />
+            <BreadCrums text="Distributor Status/Distributor Detail" />
             <CustomModal
                 isVisible={modalIsVisible}
                 title="Enter Remarks"
@@ -163,6 +164,7 @@ const styles = StyleSheet.create({
     },
     card: {
         overflow: "hidden",
+        width: '100%',
     },
     active: {
         color: Colors.gray700,

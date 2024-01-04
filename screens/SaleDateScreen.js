@@ -3,11 +3,12 @@ import LogoContainer from '../components/UI/LogoContainer';
 import Card from '../components/UI/Card';
 import LabelText from "../components/UI/LabelText";
 import Button from '../components/UI/Button';
+import BreadCrums from '../components/UI/BreadCrums';
 
 const SaleDateScreen = () => {
     return (
         <View style={styles.container}>
-            <LogoContainer />
+            <BreadCrums text="Dashboard/Sale Date" />
             <View style={styles.cardContainer}>
                 <Card style={styles.card}>
                     <View>
@@ -46,6 +47,7 @@ const styles = StyleSheet.create({
     card: {
         overflow: "hidden",
         padding: 10,
+        width: '100%',
     },
     note: {
         textAlign: 'center',

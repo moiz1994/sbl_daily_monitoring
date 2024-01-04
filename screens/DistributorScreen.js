@@ -8,6 +8,7 @@ import RowDistList from "../components/ListItems/RowDistList";
 import filter from 'lodash.filter';
 import { useNavigation } from "@react-navigation/native";
 import NetInfo from '@react-native-community/netinfo';
+import BreadCrums from '../components/UI/BreadCrums';
 
 const DistributorScreen = () => {    
     const [distList, setDistList] = useState([]);
@@ -67,7 +68,7 @@ const DistributorScreen = () => {
 
     return (        
         <View style={styles.root}>
-            <LogoContainer />
+            <BreadCrums text="Dashboard/Distributor Status" />
             <SearchView value={searchQuery} onChangeText={searchHandler}/>
             <FlatList
                 data={distList}

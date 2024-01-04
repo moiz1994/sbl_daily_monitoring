@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import { Colors } from "../constants/Colors";
 import LogoContainer from "../components/UI/LogoContainer";
 import { useEffect, useState } from "react";
@@ -6,6 +6,7 @@ import { getWorkingDate } from "../util/http";
 import Loader from "../components/UI/Loader";
 import RowWorkingDates from "../components/ListItems/RowWorkingDates";
 import NetInfo from '@react-native-community/netinfo';
+import BreadCrums from "../components/UI/BreadCrums";
 
 const WorkingDateScreen = () => {
     const [workingDates, setWorkingDates] = useState([]);
@@ -38,7 +39,7 @@ const WorkingDateScreen = () => {
     if(!isLoading){
         content = (
             <>
-                <LogoContainer />
+                <BreadCrums text="Dashboard/Working Dates" />
                 <FlatList 
                     alwaysBounceVertical={true}
                     data={workingDates}

@@ -27,7 +27,7 @@ const RowDistList = ({dataItem, onPress}) => {
 const styles = StyleSheet.create({
     root: {
         marginHorizontal: 10,
-        marginVertical: 6,
+        marginVertical: 5,
         backgroundColor: "white",
         paddingHorizontal: 4,
         paddingVertical: 8,

@@ -58,7 +58,8 @@ const RowSaleDifference = ({dataItem}) => {
 
 const styles = StyleSheet.create({
     root: {
-        margin: 10,
+        marginHorizontal: 10,
+        marginVertical: 5,
     },
     card: {
         paddingHorizontal: 8,

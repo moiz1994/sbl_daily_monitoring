@@ -7,6 +7,7 @@ import { getSaleDifference } from "../util/http";
 import Loader from "../components/UI/Loader";
 import RowSaleDifference from "../components/ListItems/RowSaleDifference";
 import NetInfo from '@react-native-community/netinfo';
+import BreadCrums from '../components/UI/BreadCrums';
 
 const SaleDifferenceScreen = () => {
     const route = useRoute();
@@ -41,7 +42,7 @@ const SaleDifferenceScreen = () => {
     if(!isLoading){
         content = (
             <>
-                <LogoContainer />
+                <BreadCrums text="Dashboard/Sale Difference Report"/>
                 <Text style={styles.dateText}>Dated On: {saleDate}</Text>
                 <FlatList 
                     alwaysBounceVertical={true}
@@ -70,7 +71,7 @@ const styles = StyleSheet.create({
     dateText: {
         marginTop: 8,
         marginHorizontal: 12,
-        color: "white",
+        color: Colors.gray50,
         fontSize: 18,        
     }
 });
