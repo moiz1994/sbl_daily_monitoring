@@ -116,7 +116,7 @@ const DistributorDetailScreen = () => {
                         placeholder="Enter Remarks"
                         value={remarks}
                         onChangeText={remarksHandler}
-                        cursorColor={Colors.gray700}
+                        cursorColor={Colors.blue500}
                         placeholderTextColor={Colors.gray100}
                         clearButtonMode="always"
                         style={styles.inputText}
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     },
     inputText: {
         borderBottomWidth: 2,
-        borderBottomColor: Colors.gray700,
+        borderBottomColor: Colors.blue500,
         marginTop: 10,
         marginHorizontal: 13,
         paddingVertical: 6,

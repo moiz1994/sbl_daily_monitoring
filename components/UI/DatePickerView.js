@@ -28,7 +28,7 @@ const DatePickerView = ({currentDate, onDateChange }) => {
         <>
             <Pressable style={styles.container} onPress={showDatePickerHandler}>
                 <Text style={styles.dateHolder}>{currentDate.toDateString()}</Text>
-                <IconButton icon="calendar" size={24} color={Colors.gray700} />
+                <IconButton icon="calendar" size={24} color={Colors.blue500} />
             </Pressable>
             {showDatePicker && (
                 <DateTimePicker
@@ -50,13 +50,13 @@ const styles = StyleSheet.create({
         alignItems: 'baseline',
         marginHorizontal: 12,
         marginVertical: 4,
-        borderBottomColor: Colors.gray700,
+        borderBottomColor: Colors.blue500,
         borderBottomWidth: 1,
     },  
     dateHolder: {
         flex: 1,
         fontSize: 16,
-    
+        fontFamily: 'roboto-regular',
     }
 });
 

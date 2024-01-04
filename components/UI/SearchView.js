@@ -5,14 +5,14 @@ import { Colors } from "../../constants/Colors";
 const SearchView = ({style, value, onChangeText}) => {
     return (
         <View style={[styles.root, style]}>
-            <Ionicons name="search" size={24} color={Colors.gray700} />
+            <Ionicons name="search" size={24} color={Colors.blue500} />
             <TextInput 
                 clearButtonMode="always"
                 autoCapitalize="none"
                 autoCorrect={false}
                 placeholder="Search"
                 style={styles.searchText}
-                cursorColor={Colors.gray700}
+                cursorColor={Colors.blue500}
                 value={value}
                 onChangeText={onChangeText}
             />            
@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     },
     searchText: {
         marginLeft: 4,
+        fontFamily: 'roboto-regular',
     },
 });
 

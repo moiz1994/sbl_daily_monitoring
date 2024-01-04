@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { useContext, useEffect, useLayoutEffect, useState } from "react";
-import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { AuthContext } from "../store/auth-context";
 import IconButton from "../components/UI/IconButton";
 import Card from "../components/UI/Card";
@@ -18,8 +18,9 @@ import { VERSION } from "../constants/Strings";
 import CustomModal from "../components/UI/CustomModal";
 import DatePickerView from "../components/UI/DatePickerView";
 import { dateFormat } from "../util/DateFormat";
-import { numberFormat } from "../util/Utilities";
+import { numberFormat, toTitleCase } from "../util/Utilities";
 import NetInfo from '@react-native-community/netinfo';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const DashboardScreen = () => {
     const nav = useNavigation();
@@ -184,7 +185,7 @@ const DashboardScreen = () => {
         }
     }
 
-    function saleDiffHandler(){
+    const saleDiffHandler = () => {
         setSaleDiffModalVisible(true);
     }
 
@@ -222,134 +223,133 @@ const DashboardScreen = () => {
                 </View>
             </CustomModal>
             
-            <LogoContainer />
-
             {/*         Header*/}
-            <View style={styles.cardContainer}>
-                <Card>
-                    <View style={styles.titleContainer}>
-                        <Text style={styles.title}>{empProfile['EMPLOYEE_NAME']}</Text>
-                        <Text style={styles.title}>{empProfile['EMPLOYEE_ID']}</Text>
-                    </View>
-                </Card>
+            <View style={styles.headerContainer}>
+                <View>
+                    <Text style={styles.headerTitle}>Daily Monitoring</Text>
+                    <Text style={styles.headerSubTitle}>Dashboard</Text>
+                </View>
+                <Image source={require('../assets/logo.png')} style={{ width: 60, height: 60, }}/>
             </View>
+            <Text style={[styles.headerSubTitle, styles.headerUser]}>{empProfile['EMPLOYEE_NAME']} - {empProfile['EMPLOYEE_ID']}</Text>           
 
             {/*         Content*/}
-            <View style={styles.cardContainer}>
-                <Card>
-                    
-                    <View style={styles.grid}>
-                        { userRoles['working_date'] === '1' && (
-                            <GridItem 
-                                source={require('../assets/moduleIcons/working_date.png')} 
-                                text="Working Date Report"
-                                onPress={() => {nav.navigate("WorkingDate")}}/>
-                            )
-                        }
-                        { userRoles['sale_diff'] === '1' && (
-                            <GridItem 
-                                source={require('../assets/moduleIcons/sale_diff.png')} 
-                                text="Sale Difference Report"
-                                onPress={saleDiffHandler}/>
-                            )
-                        }
-                        { userRoles['dist_status'] === '1' && (
-                            <GridItem 
-                                source={require('../assets/moduleIcons/dist_status.png')} 
-                                text="Distributor Status"
-                                onPress={() => {nav.navigate("DistStatus")}}/>
-                            )
-                        }
-                    </View>
-                        
-                    <View style={styles.grid}>
-                        { userRoles['sale_date'] === '1' && (
-                            <GridItem 
-                                source={require('../assets/moduleIcons/sale_date.png')} 
-                                text="Sale Date"
-                                onPress={() => nav.navigate("SaleDate")}/>
-                            )
-                        }
-                        { userRoles['active_session'] === '1' && (
-                            <GridItem 
-                                source={require('../assets/moduleIcons/session.png')} 
-                                text="Active Session"/>
-                            )
-                        }
-                        { userRoles['doc_work_flow'] === '1' && (
-                            <GridItem 
-                                source={require('../assets/moduleIcons/workflow.png')} 
-                                text="Doc Work Flow"/>
-                            )
-                        }
-                    </View>
-
-                    <View style={styles.grid}>
-                        { userRoles['pre_sale'] === '1' && (
-                            <GridItem 
-                                source={require('../assets/moduleIcons/sales.png')} 
-                                text="View Pre-Sale Data"/>
-                            )
-                        }
-                        { userRoles['gate_pass'] === '1' && (
-                            <GridItem 
-                                source={require('../assets/moduleIcons/gatepass.png')} 
-                                text="Update Vehicle Group on Gate Pass"/>
-                            )
-                        }
-                        { userRoles['locked_session'] === '1' && (
-                            <GridItem 
-                                source={require('../assets/moduleIcons/locked_session.png')} 
-                                text="Locked Session"/>
-                            )
-                        }
-                    </View>
-
-                    <View style={styles.grid}>
-                        { userRoles['other_sale'] === '1' && (
-                            <GridItem
-                                source={require('../assets/moduleIcons/sales.png')}
-                                text="Other Sale"/>
-                            )
-                        }
-                    </View>
-
-                    { userRoles['cod_limit'] === '1' && (
-                        <>
-                            <View style={styles.tableContainer}>
-                                <TableLayout 
-                                    headers={tableHead}
-                                    data={tableData}
-                                    headerRowStyle={styles.tableRow}
-                                    headerTextStyle={styles.tableRowText}
-                                    cellStyle={styles.tableCell}
-                                />
-                            </View>
-                            <View style={styles.codUpdateContainer}>
-                                <Input
-                                    inputMode="numeric"
-                                    keyboardType="number-pad"
-                                    placeholder="Enter COD Limit" 
-                                    onChange={codLimitChangeHandler}
-                                    value={codLimit}
-                                />
-                                <Button 
-                                    style={styles.btnCOD}
-                                    onPress={updateCODHandler}>UPDATE COD</Button>
-                            </View>
-                        </>
+            <View style={styles.contentContainer}>
+                <Text style={[styles.headerSubTitle, styles.mb6]}>Dashboard Main</Text>
+            
+                <View style={styles.grid}>
+                    { userRoles['working_date'] === '1' && (                        
+                        <GridItem 
+                            source={require('../assets/moduleIcons/working_date.png')} 
+                            text="Working Date"
+                            onPress={() => {nav.navigate("WorkingDate")}}/>                        
                     )}
-                </Card>
-            </View>
+                    { userRoles['sale_diff'] === '1' && (
+                        <GridItem 
+                            source={require('../assets/moduleIcons/sale_diff.png')} 
+                            text="Sale Difference"
+                            onPress={saleDiffHandler}/>
+                        )
+                    }
+                    { userRoles['dist_status'] === '1' && (
+                        <GridItem 
+                            source={require('../assets/moduleIcons/dist_status.png')} 
+                            text="Distributor Status"
+                            onPress={() => {nav.navigate("DistStatus")}}/>
+                        )
+                    }
+                </View>
 
-            {/*         Footer*/}
-            <View style={styles.cardContainer}>
-                <Card>
-                    <View style={styles.titleContainer}>
-                        <Text style={styles.title}>{VERSION}</Text>
-                        <Text style={styles.title}>Powered By SBL Team IT</Text>                        
-                    </View>
-                </Card>
+                <View style={styles.grid}>
+                    { userRoles['sale_date'] === '1' && (
+                        <GridItem 
+                            source={require('../assets/moduleIcons/sale_date.png')} 
+                            text="Sale Date"
+                            onPress={() => nav.navigate("SaleDate")}/>
+                        )
+                    }
+                    { userRoles['active_session'] === '1' && (
+                        <GridItem 
+                            source={require('../assets/moduleIcons/session.png')} 
+                            text="Active Session"/>
+                        )
+                    }
+                    { userRoles['doc_work_flow'] === '1' && (
+                        <GridItem 
+                            source={require('../assets/moduleIcons/workflow.png')} 
+                            text="Doc Work Flow"/>
+                        )
+                    }
+                </View>
+
+                <View style={styles.grid}>
+                    { userRoles['pre_sale'] === '1' && (
+                        <GridItem 
+                            source={require('../assets/moduleIcons/sales.png')} 
+                            text="View Pre-Sale Data"/>
+                        )
+                    }
+                    { userRoles['gate_pass'] === '1' && (
+                        <GridItem 
+                            source={require('../assets/moduleIcons/gatepass.png')} 
+                            text="Update Vehicle.. GP"/>
+                        )
+                    }
+                    { userRoles['locked_session'] === '1' && (
+                        <GridItem 
+                            source={require('../assets/moduleIcons/locked_session.png')} 
+                            text="Locked Session"/>
+                        )
+                    }
+                </View>
+
+                { userRoles['other_sale'] === '1' && (
+                    <GridItem style={{ marginLeft: 0, }}
+                        source={require('../assets/moduleIcons/other_sale.png')}
+                        text="Other Sale"/>
+                    )
+                }
+
+                { userRoles['cod_limit'] === '1' && (
+                    <LinearGradient
+                        colors={[Colors.gradientStart, Colors.gradientEnd]}
+                        start={{ x: 0, y: 0.5 }} // Starts at left center
+                        end={{ x: 1, y: 0.5 }} // Ends at right center
+                        style={styles.codContainer}
+                    >
+                        <Text style={styles.codTitle}>COD Limit</Text>
+
+                        <View style={styles.tableContainer}>
+                            <TableLayout 
+                                headers={tableHead}
+                                data={tableData}
+                                headerRowStyle={styles.tableRow}
+                                headerTextStyle={styles.tableRowText}
+                                cellStyle={styles.tableCell}
+                            />
+                        </View>
+
+                        <View style={styles.codUpdateContainer}>
+                            <Input
+                                inputMode="numeric"
+                                keyboardType="number-pad"
+                                placeholder="Enter COD Limit" 
+                                onChange={codLimitChangeHandler}
+                                value={codLimit}
+                            />
+                            <Button 
+                                style={styles.btnCOD}
+                                textStyle={styles.btnCODText}
+                                onPress={updateCODHandler}>UPDATE COD</Button>
+                        </View>
+
+                    </LinearGradient>
+                )}
+                {/*         Footer*/}            
+                <View style={styles.footerContainer}>
+                    <Text style={styles.footerText}>{VERSION}</Text>
+                    <Text style={styles.footerText}>Powered By SBL Team IT</Text>                        
+                </View>   
             </View>
 
         </ScrollView>
@@ -357,53 +357,81 @@ const DashboardScreen = () => {
 }
 const styles = StyleSheet.create({
     container: {
-        flex: 1,        
-        backgroundColor: Colors.gray700
+        flex: 1,
+        backgroundColor: 'white',
     },
+
     menu: {
         flexDirection: 'row'
     },
-    cardContainer: {
-        margin: 10,
+
+    headerContainer: {
+        flexDirection: 'row', 
+        justifyContent: 'space-between', 
+        marginHorizontal: 10,
+        marginTop: 10,
+    },
+    headerTitle: {
+        color: 'black',
+        fontFamily: 'roboto-bold',
+        fontSize: 24,
+    },
+    headerSubTitle: {
+        color: Colors.gray50,
+        fontFamily: 'roboto-medium',
+        fontSize: 18,
+    },
+    headerUser: {
+        marginLeft: 10,
+        marginTop: 15,
     },
 
-    titleContainer: {
-        paddingVertical: 18,
-    },
-    title: {
-        textAlign: 'center',
-        fontSize: 15,
-        fontWeight: 'bold',        
+    mb6: {
+        marginBottom: 6,
     },
 
-    grid: {
+    contentContainer: {
         flex: 1,
+        backgroundColor: Colors.bgColor,
+        borderTopRightRadius: 15,
+        borderTopLeftRadius: 15,
+        padding: 10,
+        marginTop: 10,
+    },
+    grid: {        
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         alignItems: 'flex-start',
         marginHorizontal: 8,
     },
 
+    codContainer: {
+        borderRadius: 12,
+    },
+    codTitle: {
+        color: 'white',
+        fontFamily: 'roboto-bold',
+        textAlign: 'center',
+        fontSize: 15,
+        marginTop: 10,
+    },
+
     tableContainer: {
         flex: 1,
         marginHorizontal: 10,
     },
-    tableRow: {
-        minHeight: 40,
+    tableRow: {        
         alignItems: 'center',
-        backgroundColor: Colors.gray700,  
+        backgroundColor: 'transparent'
     },
     tableRowText: { 
-        margin: 6,
+        padding: 6,
         color: 'white',
         textAlign: 'center'
     },
-    tableCell: {
-        borderWidth: 1,
-        borderColor: Colors.gray700,
+    tableCell: {    
         justifyContent: 'center',
-        minHeight: 40,
-        padding: 5,
+        minHeight: 40,        
     },
 
     codUpdateContainer: {
@@ -411,6 +439,24 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginVertical: 8,
         marginHorizontal: 10,
+    },
+
+    btnCOD: {
+        backgroundColor: 'white',
+    },
+    btnCODText: {
+        color: Colors.gray700,
+        fontFamily: 'roboto-medium'
+    },
+
+    footerContainer: {
+        paddingVertical: 18,
+    },
+    footerText: {
+        textAlign: 'center',
+        fontSize: 10,
+        fontFamily: 'roboto-regular',
+        color: Colors.gray50
     },
 
     modalBtn: {

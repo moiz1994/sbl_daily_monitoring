@@ -69,13 +69,14 @@ const styles = StyleSheet.create({
     },
     heading: {
         flex: 2,
-        fontWeight: 'bold',
         color: Colors.gray700,
         marginRight: 4,
+        fontFamily: 'roboto-bold',
     },
     value: {
         flex: 3,
         color: Colors.gray700,
+        fontFamily: 'roboto-regular',
     },
 });
 

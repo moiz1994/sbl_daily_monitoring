@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import Card from "../UI/Card";
 import { Colors } from "../../constants/Colors";
 import { systemDateFormat } from "../../util/DateFormat";
+import LabelText from '../UI/LabelText';
 
 function RowWorkingDates({workingDataItem}) {
     // Convert WORKING_DATE string to a Date object
@@ -26,14 +27,8 @@ function RowWorkingDates({workingDataItem}) {
     return ( 
         <View style={styles.root}>
             <Card style={styles.card}>
-                <View style={styles.container}>
-                    <Text style={styles.heading}>Depot Name:</Text>
-                    <Text style={styles.value}>{workingDataItem.DEPOT_NAME}</Text>
-                </View>
-                <View style={styles.container}>
-                    <Text style={styles.heading}>Description:</Text>
-                    <Text style={styles.value}>{workingDataItem.DESCRIPTION}</Text>
-                </View>
+                <LabelText label="Depot Name" text={workingDataItem.DEPOT_NAME} />
+                <LabelText label="Description" text={workingDataItem.DESCRIPTION} />
                 <View style={styles.container}>
                     <Text style={styles.heading}>Working Date:</Text>
                     <Text style={[isPastDate ? styles.value : styles.pastDateText]}>{workingDataItem.WORKING_DATE}</Text>
@@ -55,17 +50,19 @@ const styles = StyleSheet.create({
         flexDirection: 'row',        
     },
     heading: {
-        fontWeight: 'bold',
-        color: Colors.gray700,
+        color: Colors.blue500,
         marginRight: 4,
+        fontFamily: 'roboto-bold',
     },
     value: {
         color: Colors.gray700,
+        fontFamily: 'roboto-regular',
     },
     pastDateText: {
         backgroundColor: Colors.red500,
         color: 'white',
         paddingHorizontal: 4,
+        fontFamily: 'roboto-regular',
     },
 });
 

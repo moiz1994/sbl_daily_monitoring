@@ -6,3 +6,8 @@ export const numberFormat = (numberText) => {
 
     return formattedNumber;
 }
+
+export const toTitleCase = (str) => {
+    //return str.replace(/\b\w/g, char => char.toUpperCase());
+    return str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+}

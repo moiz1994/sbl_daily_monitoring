@@ -3,7 +3,7 @@ import { Colors } from "../../constants/Colors";
 
 const LabelText = ({label, text, longText}) => {
 
-    let textComponent = <Text>{text}</Text>;
+    let textComponent = <Text style={{ fontFamily: 'roboto-regular', }}>{text}</Text>;
     if(longText){
         textComponent = <Text numberOfLines={2} ellipsizeMode="tail" style={styles.text}>{text}</Text>;
     }
@@ -20,12 +20,13 @@ const styles = StyleSheet.create({
     labelView: {        
         flexDirection: 'row',
     },
-    label: {
-        fontWeight: 'bold',
-        color: Colors.gray700,
+    label: {        
+        color: Colors.blue500,
+        fontFamily: 'roboto-bold',
     },
     text: {
         flex: 1,
+        fontFamily: 'roboto-regular',
     },
 });
 

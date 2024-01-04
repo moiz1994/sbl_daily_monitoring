@@ -7,10 +7,10 @@ const InputIconWithLabel = ({label, keyboardType, placeholder, onUpdateValue, va
         <View style={styles.root}>
             <Text style={styles.label}>{label}</Text>
             <View style={styles.inputContainer}>
-                {/* <AntDesign name="people" color={Colors.gray600} size={24} /> */}
-                <AntDesign name={icon} color={Colors.gray600} size={24} onPress={onIconPress}/>
+                {/* <AntDesign name="people" color={Colors.blue500} size={24} /> */}
+                <AntDesign name={icon} color={Colors.blue500} size={24} onPress={onIconPress}/>
                 <TextInput 
-                    cursorColor={Colors.gray600}
+                    cursorColor={Colors.blue500}
                     keyboardType={keyboardType}//default, number-pad, decimal-pad, numeric, email-address, phone-pad, url, ascii-capable, numbers-and-punctuation, name-phone-pad, twitter, web-search, decimal-pad
                     maxLength={8}
                     placeholder={placeholder}
@@ -31,18 +31,21 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
     },
     label: {
-        fontWeight: 'bold'
+        color: Colors.blue500,
+        fontFamily: 'roboto-bold',
     },
     inputContainer: {
         flexDirection: 'row',
         paddingVertical: 4,        
         borderBottomWidth: 2,
+        borderBottomColor: Colors.blue500,
     },
     input: {
-        borderBottomColor: Colors.gray600,
+        borderBottomColor: Colors.blue500,
         width: '100%',
         color: Colors.gray600,
         paddingHorizontal: 8,
+        fontFamily: 'roboto-regular',
     },
 });
 

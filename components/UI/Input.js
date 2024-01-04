@@ -6,11 +6,11 @@ const Input = ({inputMode, keyboardType, placeholder, value, style, onChange}) =
         <View style={styles.root}>
             <TextInput 
                 style={[styles.inputText, style]}
-                cursorColor={Colors.gray700}
+                cursorColor={Colors.blue500}
                 inputMode={inputMode} //  "numeric", "text", "none", "decimal", "tel", "search", "email", "url"                
                 keyboardType={keyboardType} //default, number-pad, decimal-pad, numeric, email-address, phone-pad, url, ascii-capable, numbers-and-punctuation, name-phone-pad, twitter, web-search, decimal-pad
                 placeholder={placeholder}
-                placeholderTextColor={Colors.gray100}
+                placeholderTextColor={Colors.gray700}
                 value={value}
                 onChangeText={onChange}
                 clearButtonMode="always"/>
@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         marginRight: 8,
         height: 40,
+        fontFamily: 'roboto-regular',
     },  
 });
 

@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: "black",
         opacity: 0.7,
-        zIndex: 1,
+        zIndex: 1,        
     },
     lottie: {
         width: 200,
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
         marginBottom: 12,
         color: 'white',
-        fontWeight: 'bold'
+        fontFamily: 'roboto-bold',
     },
 });
 

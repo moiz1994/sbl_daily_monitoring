@@ -16,6 +16,9 @@ import DistributorScreen from './screens/DistributorScreen';
 import DistributorDetailScreen from './screens/DistributorDetailScreen';
 import SaleDateScreen from './screens/SaleDateScreen';
 
+import { useFonts } from 'expo-font';
+import * as SplashScreen from'expo-splash-screen';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -23,9 +26,9 @@ const AuthStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: Colors.gray700 },
+        headerStyle: { backgroundColor: Colors.blue500 },
         headerTintColor: 'white',
-        contentStyle: { backgroundColor: Colors.gray700 },
+        contentStyle: { backgroundColor: Colors.blue500 },
         headerShown: false,
       }}
     >
@@ -40,9 +43,9 @@ const AuthenticatedStack = () => {
     <Stack.Navigator
       initialRouteName='Dashboard'
       screenOptions={{
-        headerStyle: { backgroundColor: Colors.gray700 },
+        headerStyle: { backgroundColor: Colors.blue600 },
         headerTintColor: 'white',
-        contentStyle: { backgroundColor: Colors.gray700 },        
+        contentStyle: { backgroundColor: Colors.bgColor },        
       }}
     >
       <Stack.Screen 
@@ -128,6 +131,25 @@ const Root = () => {
 }
 
 export default function App() {
+  const [fontsLoaded, error] = useFonts({
+    'roboto-black': require('./assets/fonts/RobotoCondensed-Black.ttf'), // Replace with your font paths
+    'roboto-bold': require('./assets/fonts/RobotoCondensed-Bold.ttf'),
+    'roboto-medium': require('./assets/fonts/RobotoCondensed-Medium.ttf'),
+    'roboto-regular': require('./assets/fonts/RobotoCondensed-Regular.ttf'),
+  });
+
+  useEffect(() => {
+    if (fontsLoaded) {
+      SplashScreen.hideAsync();
+    } else if (error) {
+      console.warn(error);
+    }
+  }, [fontsLoaded, error]);
+
+  if (!fontsLoaded) {
+    return null; // Or a loading screen
+  }
+
   return (
     <>
       <StatusBar style="light" />

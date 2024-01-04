@@ -8,6 +8,8 @@ import { AuthContext } from "../store/auth-context";
 import Loader from "../components/UI/Loader";
 import InputIconWithLabel from "../components/UI/InputIconWithLabel";
 import NetInfo from '@react-native-community/netinfo';
+import { Colors } from "../constants/Colors";
+import LogoContainer from "../components/UI/LogoContainer";
 
 
 const LoginScreen = () => {
@@ -83,9 +85,7 @@ const LoginScreen = () => {
 
     return ( 
         <KeyboardAvoidingView style={styles.root} behavior="height">            
-            <View style={styles.logoContainer}>
-                <Image source={ require('../assets/logo.png') } style={styles.logo}/>
-            </View>
+            <LogoContainer/>
             <View style={styles.cardContainer}>
                 <Card>
                     <Text style={styles.title}>Login</Text>
@@ -156,13 +156,15 @@ const styles = StyleSheet.create({
 
     },
     versionText: {
-        color: 'white'
+        color: 'white',
+        fontFamily: 'roboto-regular',
     },
     title: {
         textAlign: 'center',
         fontSize: 24,
         fontWeight: 'bold',
         marginVertical: 8, 
+        color: Colors.blue500,
     },
 });
 

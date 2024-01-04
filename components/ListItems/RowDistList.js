@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 4,
         borderRadius: 6,
+        fontFamily: 'roboto-regular',
     },
     inactive: {
         backgroundColor: Colors.red500,
@@ -51,6 +52,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 4,
         borderRadius: 6,
+        fontFamily: 'roboto-regular',
     },
     pressed: {
         opacity: 0.75,

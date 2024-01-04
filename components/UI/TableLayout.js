@@ -27,7 +27,7 @@ const TableLayout = ({
                 <View key={rowIndex} style={[styles.row, rowStyle]}>
                 {row.map((cell, cellIndex) => (
                     <View key={cellIndex} style={[styles.cell, cellStyle]}>
-                    <Text style={[styles.cellText, cellTextStyle]}>{cell}</Text>
+                        <Text style={[styles.cellText, cellTextStyle]}>{cell}</Text>
                     </View>
                 ))}
                 </View>
@@ -37,33 +37,34 @@ const TableLayout = ({
 }
 const styles = StyleSheet.create({
     table: {
-        borderWidth: 1,
-        borderColor: 'black',
         marginVertical: 10,
     },
     headerRow: {
-        flexDirection: 'row',
-        backgroundColor: '#f2f2f2',
+        flexDirection: 'row',        
     },
     headerCell: {
         flex: 1,
-        borderBottomWidth: 1,
-        borderBottomColor: 'black',
+        borderWidth: 1,
+        borderColor: 'white',
     },
-    headerText: {
-        fontWeight: 'bold',
+    headerText: {        
         textAlign: 'center',
+        fontFamily: 'roboto-bold',
+        fontSize: 13,
     },
     row: {
         flexDirection: 'row',
     },
     cell: {
         flex: 1,
-        borderBottomWidth: 1,
-        borderBottomColor: 'black',
+        borderWidth: 1,
+        borderColor: 'white',
     },
     cellText: {
         textAlign: 'center',
+        fontFamily: 'roboto-regular',
+        color: 'white',
+        fontSize: 13,
     },
 });
 

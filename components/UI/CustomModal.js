@@ -30,7 +30,8 @@ const styles = StyleSheet.create({
     centeredView: {
         flex: 1,
         justifyContent: 'center',
-        marginTop: 22,           
+        marginTop: 22,
+        zIndex: 1,
     },
     modalView: {
         margin: 20,
@@ -50,13 +51,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',  // Center items horizontally
-        backgroundColor: Colors.gray800,
+        backgroundColor: Colors.blue500,
     },
     modalHeadingText: { 
         color: 'white',
         fontSize: 18,
         textAlign: 'center',
         paddingLeft: 10,
+        fontFamily: 'roboto-bold',
     }
 });
 
