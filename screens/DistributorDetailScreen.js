@@ -1,6 +1,5 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Alert, StyleSheet, Text, TextInput, View } from "react-native";
-import LogoContainer from "../components/UI/LogoContainer";
 import Card from '../components/UI/Card'; 
 import { Colors } from "../constants/Colors";
 import LabelText from "../components/UI/LabelText";

@@ -149,3 +149,36 @@ export const updateDistributorStatus = async (distCode, remarks, status) => {
     });
     return response.text();
 }
+
+export const getSaleDateTimerData = async () => {
+    const url = LINK + PATH + "get_timer_data.php";
+    
+    const response = await fetch(url, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            "Content-Type": "application/json charset=utf-8",
+        },        
+    }).catch(error => {
+        console.log(error);
+    });
+    return response.text();
+}
+
+export const updateSaleDate = async (time, curDate, empCode) => {
+    const url = LINK + PATH + "update_sale_date.php";
+    const data = {
+        "time": time,
+        "curDate": curDate,
+        "empCode": empCode,
+    };
+    const response = await fetch(url, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            "Content-Type": "application/json charset=utf-8",
+        },
+        body: JSON.stringify(data),
+    }).catch(error => {
+        console.log(error);
+    });
+    return response.text();
+}

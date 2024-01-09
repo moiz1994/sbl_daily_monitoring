@@ -1,5 +1,4 @@
 import { Alert, FlatList, StyleSheet, View } from "react-native";
-import LogoContainer from "../components/UI/LogoContainer";
 import SearchView from "../components/UI/SearchView";
 import { useEffect, useState } from "react";
 import { getDistributorList } from "../util/http";

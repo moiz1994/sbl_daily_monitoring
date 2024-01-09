@@ -39,3 +39,7 @@ export const dateFormat = (inputDate) => {
     return `${day}-${month}-${year}`;
 }
 
+
+export const formatTime = (time) => {
+    return `${time.getHours().toString().padStart(2, '0')}:${time.getMinutes().toString().padStart(2, '0')}:${time.getSeconds().toString().padStart(2, '0')}`;
+}

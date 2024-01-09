@@ -60,7 +60,7 @@ const DashboardScreen = () => {
         })
     }, []);
 
-    useEffect(() => {    
+    useEffect(() => {
         const fillEmpCode = async () => {
             try {
                 const empID = await AsyncStorage.getItem('EMP_CODE');
@@ -120,7 +120,7 @@ const DashboardScreen = () => {
         })
 
         
-    }, [empCode, refreshData]);
+    }, [empCode, refreshData, setIsOnline]);
 
     const refreshHandler = () => {
         setIsLoading(true);
@@ -265,7 +265,7 @@ const DashboardScreen = () => {
                         <GridItem 
                             source={require('../assets/moduleIcons/sale_date.png')} 
                             text="Sale Date"
-                            onPress={() => nav.navigate("SaleDate")}/>
+                            onPress={() => nav.navigate("SaleDate", {empCode: empCode})}/>
                         )
                     }
                     { userRoles['active_session'] === '1' && (
@@ -431,7 +431,7 @@ const styles = StyleSheet.create({
     },
     tableCell: {    
         justifyContent: 'center',
-        minHeight: 40,        
+        padding: 6,
     },
 
     codUpdateContainer: {

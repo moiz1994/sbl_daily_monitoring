@@ -1,6 +1,5 @@
 import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
 import { Colors } from "../constants/Colors";
-import LogoContainer from "../components/UI/LogoContainer";
 import { useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { getSaleDifference } from "../util/http";

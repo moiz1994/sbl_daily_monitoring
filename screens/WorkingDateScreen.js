@@ -1,6 +1,5 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { Colors } from "../constants/Colors";
-import LogoContainer from "../components/UI/LogoContainer";
 import { useEffect, useState } from "react";
 import { getWorkingDate } from "../util/http";
 import Loader from "../components/UI/Loader";
