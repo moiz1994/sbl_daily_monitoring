@@ -182,3 +182,21 @@ export const updateSaleDate = async (time, curDate, empCode) => {
     });
     return response.text();
 }
+
+export const getActiveSession = async (version) => {
+    const url = LINK + PATH + "get_active_session.php";
+    const data = {
+        "APP_ID": "030820210318",
+        "VERSION_TYPE": version,        
+    };
+    const response = await fetch(url, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            "Content-Type": "application/json charset=utf-8",
+        },
+        body: JSON.stringify(data),
+    }).catch(error => {
+        console.log(error);
+    });
+    return response.text();
+}

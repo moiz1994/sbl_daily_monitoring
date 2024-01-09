@@ -3,7 +3,6 @@ import { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { Alert, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { AuthContext } from "../store/auth-context";
 import IconButton from "../components/UI/IconButton";
-import Card from "../components/UI/Card";
 import Button from "../components/UI/Button";
 import { Colors } from "../constants/Colors";
 import GridItem from "../components/UI/GridItem";
@@ -13,14 +12,14 @@ import TableLayout from "../components/UI/TableLayout";
 import Loader from "../components/UI/Loader";
 import Input from "../components/UI/Input";
 import Toast from 'react-native-simple-toast';
-import LogoContainer from "../components/UI/LogoContainer";
 import { VERSION } from "../constants/Strings";
 import CustomModal from "../components/UI/CustomModal";
 import DatePickerView from "../components/UI/DatePickerView";
 import { dateFormat } from "../util/DateFormat";
-import { numberFormat, toTitleCase } from "../util/Utilities";
+import { numberFormat } from "../util/Utilities";
 import NetInfo from '@react-native-community/netinfo';
 import { LinearGradient } from 'expo-linear-gradient';
+import {Picker} from '@react-native-picker/picker';
 
 const DashboardScreen = () => {
     const nav = useNavigation();
@@ -34,7 +33,12 @@ const DashboardScreen = () => {
     const [userRoles, setUserRoles] = useState({});
     const [fetchedCODLimit, setFetchedCODLimit] = useState({});
     const [codLimit, setCodLimit] = useState('');
+    const [selectedVersion, setSelectedVersion] = useState();
+    
+
+    //      Modals Visibility
     const [saleDiffModalVisible, setSaleDiffModalVisible] = useState(false);
+    const [activeSessionModalVisible, setActiveSessionModalVisible] = useState(false);
 
     const tableHead = ['Date', 'COD Limit', 'Last Update'];
     const tableData = [];
@@ -203,16 +207,23 @@ const DashboardScreen = () => {
         })
     }
 
+    const activeSessionHandler = () => {
+        setActiveSessionModalVisible(false);
+        nav.navigate("ActiveSession", {version: selectedVersion});
+    }
+
     if(fetchedCODLimit){
         const formattedCODLimit = numberFormat(fetchedCODLimit['LIMIT_COD']);
         const COD_LIMIT = [fetchedCODLimit["CREATION_DATE"], formattedCODLimit, fetchedCODLimit["USER_FULL_NAME"]]
         tableData.push(COD_LIMIT);
     }
 
-    return (     
-        <ScrollView style={styles.container}>
-            { isLoading && (<Loader message="Loading..."/>) }
+    if(isLoading){
+        return <Loader message="Loading..."/>;
+    }
 
+    return (     
+        <ScrollView style={styles.container}>            
             <CustomModal 
                 isVisible={saleDiffModalVisible}             
                 title="Select Date"
@@ -220,6 +231,25 @@ const DashboardScreen = () => {
                 <View>
                     <DatePickerView currentDate={selectedDate} onDateChange={handleDateChange}/>
                     <Button style={styles.modalBtn} onPress={() => saleDiffSelectHandler(selectedDate)}>Select</Button>
+                </View>
+            </CustomModal>
+
+            <CustomModal 
+                isVisible={activeSessionModalVisible}             
+                title="Select Version"
+                closeModal={() => setActiveSessionModalVisible(false)}>
+                <View>
+                    <Picker
+                        selectedValue={selectedVersion}
+                        onValueChange={(itemValue, itemIndex) => setSelectedVersion(itemValue)}
+                        placeholder="Select Version"
+                    >
+                        <Picker.Item label="Select Version" value="NA" color={Colors.gray50} fontFamily="roboto-regular"/>
+                        <Picker.Item label="6i" value="6i" fontFamily="roboto-regular"/>
+                        <Picker.Item label="11g" value="11g" fontFamily="roboto-regular"/>
+                        <Picker.Item label="12c" value="12c" fontFamily="roboto-regular"/>
+                    </Picker>
+                    <Button style={styles.modalBtn} onPress={activeSessionHandler}>Select</Button>
                 </View>
             </CustomModal>
             
@@ -271,7 +301,8 @@ const DashboardScreen = () => {
                     { userRoles['active_session'] === '1' && (
                         <GridItem 
                             source={require('../assets/moduleIcons/session.png')} 
-                            text="Active Session"/>
+                            text="Active Session"
+                            onPress={() => setActiveSessionModalVisible(true)}/>
                         )
                     }
                     { userRoles['doc_work_flow'] === '1' && (
