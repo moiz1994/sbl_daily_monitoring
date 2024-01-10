@@ -3,7 +3,7 @@ import { Colors } from "../../constants/Colors";
 
 const LabelText = ({label, text, longText}) => {
 
-    let textComponent = <Text style={{ fontFamily: 'roboto-regular', }}>{text}</Text>;
+    let textComponent = <Text style={styles.text2}>{text}</Text>;
     if(longText){
         textComponent = <Text numberOfLines={2} ellipsizeMode="tail" style={styles.text}>{text}</Text>;
     }
@@ -28,6 +28,9 @@ const styles = StyleSheet.create({
         flex: 1,
         fontFamily: 'roboto-regular',
     },
+    text2: {
+        fontFamily: 'roboto-regular',
+    }
 });
 
 export default LabelText;
