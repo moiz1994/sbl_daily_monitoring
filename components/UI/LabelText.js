@@ -5,7 +5,7 @@ const LabelText = ({label, text, longText}) => {
 
     let textComponent = <Text style={styles.text2}>{text}</Text>;
     if(longText){
-        textComponent = <Text numberOfLines={2} ellipsizeMode="tail" style={styles.text}>{text}</Text>;
+        textComponent = <Text numberOfLines={10} ellipsizeMode="tail" style={styles.text}>{text}</Text>;
     }
 
     return (

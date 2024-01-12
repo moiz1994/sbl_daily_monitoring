@@ -3,7 +3,7 @@ import LabelText from "../UI/LabelText";
 import Checkbox from "expo-checkbox";
 import { Colors } from "../../constants/Colors";
 
-const RowActiveSession = ({dataItem, onPress, isChecked, setChecked}) => {
+const RowActiveSession = ({dataItem, isChecked, setChecked}) => {
 
     //console.log(dataItem)
     const {SID, LOGON_TIME, MODULE, USERNAME, OSUSER, MACHINE, PROCESS, CLIENT_IDENTIFIER} = dataItem;    
@@ -23,7 +23,7 @@ const RowActiveSession = ({dataItem, onPress, isChecked, setChecked}) => {
                     <LabelText label="OsUser" text={OSUSER} />
                     <LabelText label="Machine" text={MACHINE} />
                     <LabelText label="Process" text={PROCESS} />
-                    <LabelText label="Client Identifier" text={CLIENT_IDENTIFIER} />
+                    <LabelText label="Client Identifier" text={CLIENT_IDENTIFIER} longText={true} />
                 </View>
                 <Checkbox
                     value={isChecked}

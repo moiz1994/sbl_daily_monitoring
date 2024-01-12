@@ -3,10 +3,10 @@ import LabelText from "../UI/LabelText";
 import Checkbox from "expo-checkbox";
 import { Colors } from "../../constants/Colors";
 
-const RowActiveSession = ({dataItem, onPress, isChecked, setChecked}) => {
+const RowActiveSession12C = ({dataItem, isChecked, setChecked}) => {
 
     //console.log(dataItem)
-    const {LOGON_TIME, MODULE, STATUS, OSUSER, CLIENT_IDENTIFIER, TERMINAL, PROCESS, KILL_JOB} = dataItem;    
+    const {LOGON_TIME, MODULE, OSUSER, CLIENT_IDENTIFIER, TERMINAL, PROCESS, KILL_JOB} = dataItem;    
 
     const handlePress = () => {
         setChecked(!isChecked);
@@ -15,15 +15,14 @@ const RowActiveSession = ({dataItem, onPress, isChecked, setChecked}) => {
     return (
         <Pressable onPress={handlePress} style={styles.root}>
             <View style={styles.container}>
-                <View>
-                    <LabelText label="Client Identifier" text={SID} />
+                <View>                    
+                    <LabelText label="Client Identifier" text={CLIENT_IDENTIFIER} />
                     <LabelText label="Logon Time" text={LOGON_TIME} />
                     <LabelText label="Module Name" text={MODULE} />
-                    <LabelText label="Username" text={USERNAME} />
+                    <LabelText label="Terminal" text={TERMINAL} />
                     <LabelText label="OsUser" text={OSUSER} />
-                    <LabelText label="Machine" text={MACHINE} />
-                    <LabelText label="Process" text={PROCESS} />
-                    <LabelText label="Client Identifier" text={CLIENT_IDENTIFIER} />
+                    <LabelText label="Kill Job" text={KILL_JOB} />
+                    <LabelText label="Process" text={PROCESS} />                    
                 </View>
                 <Checkbox
                     value={isChecked}
@@ -50,4 +49,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default RowActiveSession;
+export default RowActiveSession12C;
