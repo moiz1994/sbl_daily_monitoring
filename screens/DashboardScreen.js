@@ -1,13 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
 import { useContext, useEffect, useLayoutEffect, useState } from "react";
-import { Alert, Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, Image, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { AuthContext } from "../store/auth-context";
 import IconButton from "../components/UI/IconButton";
 import Button from "../components/UI/Button";
 import { Colors } from "../constants/Colors";
 import GridItem from "../components/UI/GridItem";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getCOD, getEmpProfile, getUserRoles, updateCODLimit } from "../util/http";
+import { getCOD, getEmpProfile, getUserRoles, getWorkFlowDocs, updateCODLimit } from "../util/http";
 import TableLayout from "../components/UI/TableLayout";
 import Loader from "../components/UI/Loader";
 import Input from "../components/UI/Input";
@@ -28,17 +28,23 @@ const DashboardScreen = () => {
     const [inOnline, setIsOnline] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [refreshData, setRefreshData] = useState(true);
+
     const [empCode, setEmpCode] = useState('');
+
     const [empProfile, setEmpProfile] = useState({});
     const [userRoles, setUserRoles] = useState({});
     const [fetchedCODLimit, setFetchedCODLimit] = useState({});
+    const [workFlowProg, setWorkFlowProg] = useState();
+
     const [codLimit, setCodLimit] = useState('');
     const [selectedVersion, setSelectedVersion] = useState();
-    
+    const [selectedDoc, setSelectedDoc] = useState();
+    const [docNo, setDocNo] = useState();
 
     //      Modals Visibility
     const [saleDiffModalVisible, setSaleDiffModalVisible] = useState(false);
     const [activeSessionModalVisible, setActiveSessionModalVisible] = useState(false);
+    const [workflowModalVisible, setWorkFlowModalVisible] = useState(false);
 
     const tableHead = ['Date', 'COD Limit', 'Last Update'];
     const tableData = [];
@@ -84,10 +90,11 @@ const DashboardScreen = () => {
     
                     try {
                         if (empCode) {
-                            const [empProfileResponse, userRolesResponse, codLimitResponse] = await Promise.all([
+                            const [empProfileResponse, userRolesResponse, codLimitResponse, workFlowProgResponse] = await Promise.all([
                                 getEmpProfile(empCode),
                                 getUserRoles(empCode),
                                 getCOD(),
+                                getWorkFlowDocs(),
                             ]);
                         
                             const parsedEmpProfile = JSON.parse(empProfileResponse);
@@ -101,6 +108,10 @@ const DashboardScreen = () => {
                             const parsedCodLimit = JSON.parse(codLimitResponse);
                             setFetchedCODLimit(parsedCodLimit[0] || {});
                             //console.log(parsedCodLimit);
+
+                            const parsedWorkFlowProgs = JSON.parse(workFlowProgResponse);
+                            setWorkFlowProg(parsedWorkFlowProgs || {});
+                            //console.log(parsedWorkFlowProgs);
     
                             setIsLoading(false);
                         }
@@ -208,9 +219,27 @@ const DashboardScreen = () => {
     }
 
     const activeSessionHandler = () => {
-        setActiveSessionModalVisible(false);
-        nav.navigate("ActiveSession", {version: selectedVersion});
+        console.log(selectedVersion)
+        if(selectedVersion === undefined || selectedVersion === "NA"){
+            Alert.alert("Invalid Selection!!!", "Please select a version");
+        }else{
+            setActiveSessionModalVisible(false);
+            nav.navigate("ActiveSession", {version: selectedVersion});
+        }
     }
+
+    const documentWorkFlowHandler = () => {
+        if(selectedDoc === undefined || selectedDoc === "NA" || docNo === undefined){
+            Alert.alert("Invalid Input!!!", "Please provide valid inputs");
+        }else{
+            setWorkFlowModalVisible(false);
+            nav.navigate("WorkFlow", {
+                docName: selectedDoc,
+                docNo: docNo
+            })
+        }
+    }
+    
 
     if(fetchedCODLimit){
         const formattedCODLimit = numberFormat(fetchedCODLimit['LIMIT_COD']);
@@ -222,8 +251,9 @@ const DashboardScreen = () => {
         return <Loader message="Loading..."/>;
     }
 
-    return (     
-        <ScrollView style={styles.container}>            
+    return (
+        <ScrollView style={styles.container}>
+            {/*         Sale Difference Modal */}
             <CustomModal 
                 isVisible={saleDiffModalVisible}             
                 title="Select Date"
@@ -233,7 +263,8 @@ const DashboardScreen = () => {
                     <Button style={styles.modalBtn} onPress={() => saleDiffSelectHandler(selectedDate)}>Select</Button>
                 </View>
             </CustomModal>
-
+        
+            {/*         Active Session Modal */}
             <CustomModal 
                 isVisible={activeSessionModalVisible}             
                 title="Select Version"
@@ -244,12 +275,48 @@ const DashboardScreen = () => {
                         onValueChange={(itemValue, itemIndex) => setSelectedVersion(itemValue)}
                         placeholder="Select Version"
                     >
-                        <Picker.Item label="Select Version" value="NA" color={Colors.gray50} fontFamily="roboto-regular"/>
+                        <Picker.Item label="--Select Version--" value="NA" color={Colors.gray50} fontFamily="roboto-regular"/>
                         <Picker.Item label="6i" value="6i" fontFamily="roboto-regular"/>
                         <Picker.Item label="11g" value="11g" fontFamily="roboto-regular"/>
                         <Picker.Item label="12c" value="12c" fontFamily="roboto-regular"/>
                     </Picker>
                     <Button style={styles.modalBtn} onPress={activeSessionHandler}>Select</Button>
+                </View>
+            </CustomModal>
+
+            {/*         Work Flow Modal */}
+            <CustomModal 
+                isVisible={workflowModalVisible}             
+                title="Doc Work Flow"
+                closeModal={() => setWorkFlowModalVisible(false)}>
+                <View>
+                    <Picker
+                        selectedValue={selectedDoc}
+                        onValueChange={(itemValue, itemIndex) => setSelectedDoc(itemValue)}
+                        placeholder="Select Document"
+                    >
+                        <Picker.Item label="--Select Document--" value="NA" color={Colors.gray50} fontFamily="roboto-regular"/>
+                        {workFlowProg.map((item, index) => (
+                            <Picker.Item
+                                key={index}
+                                label={item["PROG_DESC"]}
+                                value={item["PROG_DESC"]}
+                                fontFamily="roboto-regular"
+                            />
+                        ))}
+                    </Picker>
+                    <Input 
+                        inputMode="text"
+                        keyboardType="default"
+                        cursorColor={Colors.gray600}
+                        placeholder="Document #"
+                        placeholderTextColor={Colors.gray50}
+                        value={docNo}
+                        onChangeText={(value) => {setDocNo(value)}}
+                        style={{ marginHorizontal: 15, marginBottom: 8, }}
+                    />                    
+
+                    <Button style={styles.modalBtn} onPress={documentWorkFlowHandler}>Proceed</Button>
                 </View>
             </CustomModal>
             
@@ -308,7 +375,8 @@ const DashboardScreen = () => {
                     { userRoles['doc_work_flow'] === '1' && (
                         <GridItem 
                             source={require('../assets/moduleIcons/workflow.png')} 
-                            text="Doc Work Flow"/>
+                            text="Doc Work Flow"
+                            onPress={() => setWorkFlowModalVisible(true)}/>
                         )
                     }
                 </View>
@@ -365,8 +433,10 @@ const DashboardScreen = () => {
                                 inputMode="numeric"
                                 keyboardType="number-pad"
                                 placeholder="Enter COD Limit" 
-                                onChange={codLimitChangeHandler}
+                                onChangeText={codLimitChangeHandler}
                                 value={codLimit}
+                                textStyle={{ marginRight: 8 }}
+                                style={{ flex:1, }}
                             />
                             <Button 
                                 style={styles.btnCOD}
@@ -400,7 +470,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row', 
         justifyContent: 'space-between', 
         marginHorizontal: 10,
-        marginTop: 10,
+        marginTop: 15,
     },
     headerTitle: {
         color: 'black',

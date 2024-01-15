@@ -1,30 +1,30 @@
-import { Modal, StyleSheet, Text, View } from "react-native";
-import { Colors } from "../../constants/Colors";
-import IconButton from "./IconButton";
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { Colors } from '../../constants/Colors';
+import IconButton from './IconButton';
+import ReactNativeModal from 'react-native-modal'; // Import the react-native-modal library
 
-
-const CustomModal = ({isVisible, children, title, closeModal}) => {
-    
-    return ( 
-        <View style={styles.centeredView}>
-            <Modal 
-                animationType="slide" 
-                transparent={true} 
-                visible={isVisible}
-                >
-                    <View style={styles.centeredView}>
-                        <View style={styles.modalView}>
-                            <View style={styles.modalHeading}>
-                                <Text style={styles.modalHeadingText}>{title}</Text>
-                                <IconButton icon="close" size={24} color="white" onPress={closeModal}/>
-                            </View>
-                            {children}
-                        </View>
+const CustomModal = ({ isVisible, children, title, closeModal }) => {
+    return (
+        <ReactNativeModal
+            isVisible={isVisible}
+            animationIn="tada"
+            animationOut="bounceOut"
+            transparent={true}
+            style={styles.centeredView}
+        >
+            <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                    <View style={styles.modalHeading}>
+                        <Text style={styles.modalHeadingText}>{title}</Text>
+                        <IconButton icon="close" size={24} color="white" onPress={closeModal} />
                     </View>
-            </Modal>
-        </View>
-    );
-}
+                    {children}
+                </View>
+            </View>
+        </ReactNativeModal>
+        );
+};
 
 const styles = StyleSheet.create({
     centeredView: {
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     modalView: {
         margin: 20,
         backgroundColor: 'white',
-        borderRadius: 10,                
+        borderRadius: 10,
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
@@ -45,21 +45,21 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-        overflow: 'hidden'
+        overflow: 'hidden',
     },
     modalHeading: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',  // Center items horizontally
+        alignItems: 'center', // Center items horizontally
         backgroundColor: Colors.blue500,
     },
-    modalHeadingText: { 
+    modalHeadingText: {
         color: 'white',
         fontSize: 18,
         textAlign: 'center',
         paddingLeft: 10,
         fontFamily: 'roboto-bold',
-    }
+    },
 });
 
 export default CustomModal;

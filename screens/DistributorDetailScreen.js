@@ -11,6 +11,7 @@ import Loader from "../components/UI/Loader";
 import Toast from 'react-native-simple-toast';
 import NetInfo from '@react-native-community/netinfo';
 import BreadCrums from '../components/UI/BreadCrums';
+import CenterView from "../components/UI/CenterView";
 
 const DistributorDetailScreen = () => {
     const route = useRoute();
@@ -124,8 +125,8 @@ const DistributorDetailScreen = () => {
                     <Button style={[styles.btn, {marginHorizontal: 10,}]} onPress={updateStatusHandler}>{btnText}</Button>
                 </View>
             </CustomModal>
-            <View style={styles.cardContainer}>
-                
+
+            <CenterView>
                 <Card style={styles.card}>
                     <View>
                         <Text style={statusStyle}>{status}</Text>
@@ -141,7 +142,8 @@ const DistributorDetailScreen = () => {
                         </View>
                     </View>
                 </Card>
-            </View>
+            </CenterView>
+
         </View>
     );
 }
@@ -149,17 +151,6 @@ const DistributorDetailScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-    },
-    cardContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'absolute',
-        top: 100, // Adjust this value to control the position of the card
-        left: 0,
-        right: 0,
-        bottom: 0,
-        marginHorizontal: 10,        
     },
     card: {
         overflow: "hidden",

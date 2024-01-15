@@ -66,6 +66,23 @@ export const getCOD = async () => {
     return response.text();
 }
 
+export const getWorkFlowDocs = async () => {
+    const url = LINK + PATH + "get_work_flow_document.php";
+    const data = {
+        "APP_ID": "030820210318",
+    };
+    const response = await fetch(url, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            "Content-Type": "application/json charset=utf-8",
+        },
+        body: JSON.stringify(data),
+    }).catch(error => {
+        console.log(error);
+    });
+    return response.text();
+}
+
 export const updateCODLimit = async (empCode, value) => {
     const url = LINK + PATH + "update_cod_limit.php";
     
@@ -207,6 +224,63 @@ export const endSession = async (version, processList) => {
         "APP_ID": "030820210318",
         "VERSION_TYPE": version,
         "PROCESS": processList
+    };
+    const response = await fetch(url, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            "Content-Type": "application/json charset=utf-8",
+        },
+        body: JSON.stringify(data),
+    }).catch(error => {
+        console.log(error);
+    });
+    return response.text();
+}
+
+export const getWorkFlowData = async (docName, docNo) => {
+    const url = LINK + PATH + "get_work_flow_data.php";
+    const data = {
+        "APP_ID": "030820210318",
+        "DOC_NAME": docName,
+        "DOC_NO": docNo
+    };
+    const response = await fetch(url, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            "Content-Type": "application/json charset=utf-8",
+        },
+        body: JSON.stringify(data),
+    }).catch(error => {
+        console.log(error);
+    });
+    return response.text();
+}
+
+export const getWorkFlowLevels = async (docName) => {
+    const url = LINK + PATH + "get_work_flow_lvl.php";
+    const data = {
+        "APP_ID": "030820210318",
+        "DOC_NAME": docName,
+    };
+    const response = await fetch(url, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            "Content-Type": "application/json charset=utf-8",
+        },
+        body: JSON.stringify(data),
+    }).catch(error => {
+        console.log(error);
+    });
+    return response.text();
+}
+
+export const updateWorkFlowLevels = async (docName, docNo, level) => {
+    const url = LINK + PATH + "update_work_flow_level.php";
+    const data = {
+        "APP_ID": "030820210318",
+        "DOC_NAME": docName,
+        "DOC_NO": docNo,
+        "LEVEL_NO": level,
     };
     const response = await fetch(url, {
         method: "POST", // *GET, POST, PUT, DELETE, etc.

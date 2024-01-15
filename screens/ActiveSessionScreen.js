@@ -1,6 +1,6 @@
 import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
 import BreadCrums from "../components/UI/BreadCrums";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import NetInfo from "@react-native-community/netinfo";
 import { endSession, getActiveSession } from "../util/http";
@@ -16,6 +16,7 @@ import Toast from 'react-native-simple-toast';
 
 const ActiveSessionScreen = () => {
     const route = useRoute();
+    const nav = useNavigation();
     const {version} = route.params;
 
     const [isLoading, setIsLoading] = useState(true);

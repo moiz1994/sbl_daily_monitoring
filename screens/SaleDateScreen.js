@@ -12,6 +12,7 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import { formatTime } from "../util/DateFormat";
 import { useRoute } from "@react-navigation/native";
 import Toast from 'react-native-simple-toast';
+import CenterView from "../components/UI/CenterView";
 
 const SaleDateScreen = () => {
     const route = useRoute();
@@ -148,25 +149,13 @@ const SaleDateScreen = () => {
                 />
             )}
             <BreadCrums text="Dashboard/Sale Date" />
-            <View style={styles.cardContainer}>
+            <CenterView>
                 <Card style={styles.card}>
                     <View>
-                        {/* <LabelText label="Sale Date" text={CUR_DATE}/>
-                        <LabelText label="Sale Date Close @" text={EXPIRED_ON}/>
-                        <LabelText label="Changed @" text={CHANGED_AT}/>
-                        <LabelText label="Changed By" text={CHANGED_BY}/>
-
-                        <LabelText label="Current Sale Date" text={SALE_DATE}/>
-                        <View style={styles.subContainer}>
-                            <Text style={styles.textHeading}>Until When</Text>
-                            <Text style={styles.text}>Until When</Text>
-                            <Image source={require("../assets/time.png")} style={styles.timeImage}/>
-                            <Button>Change Sale Date</Button>
-                        </View> */}
                         {content}
                     </View>
                 </Card>
-            </View>
+            </CenterView>
         </View>
     );
 }
@@ -175,17 +164,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    cardContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'absolute',
-        top: 0, // Adjust this value to control the position of the card
-        left: 0,
-        right: 0,
-        bottom: 0,
-        marginHorizontal: 10,        
-    },
+
     card: {
         overflow: "hidden",
         padding: 10,

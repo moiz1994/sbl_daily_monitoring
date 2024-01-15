@@ -19,6 +19,7 @@ import SaleDateScreen from './screens/SaleDateScreen';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from'expo-splash-screen';
 import ActiveSessionScreen from './screens/ActiveSessionScreen';
+import DocWorkFlowScreen from './screens/DocWorkFlowScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -102,6 +103,14 @@ const AuthenticatedStack = () => {
         component={ActiveSessionScreen}
         options={{ 
           title: 'Active Session'
+        }}
+      />
+
+      <Stack.Screen
+        name='WorkFlow'
+        component={DocWorkFlowScreen}
+        options={{ 
+          title: 'Doc Work Flow'
         }}
       />
     </Stack.Navigator>
