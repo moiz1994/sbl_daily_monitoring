@@ -293,3 +293,38 @@ export const updateWorkFlowLevels = async (docName, docNo, level) => {
     });
     return response.text();
 }
+
+export const getPreSaleData = async () => {
+    const url = LINK + PATH + "pre_sale_check_sync.php";
+    const data = {
+        "APP_ID": "030820210318",
+    };
+    const response = await fetch(url, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            "Content-Type": "application/json charset=utf-8",
+        },
+        body: JSON.stringify(data),
+    }).catch(error => {
+        console.log(error);
+    });
+    return response.text();
+}
+
+export const startSyncProcess = async () => {
+    const url = LINK + "sis_app_v7/ora_sync_manual_2.php";
+    const data = {
+        "APP_ID": "030820210318",
+    };
+    const response = await fetch(url, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            "Content-Type": "application/json charset=utf-8",
+        },
+        body: JSON.stringify(data),
+    }).catch(error => {
+        console.log(error);
+    });
+    return response.text();
+}
+

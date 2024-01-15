@@ -385,7 +385,8 @@ const DashboardScreen = () => {
                     { userRoles['pre_sale'] === '1' && (
                         <GridItem 
                             source={require('../assets/moduleIcons/sales.png')} 
-                            text="View Pre-Sale Data"/>
+                            text="View Pre-Sale Data"
+                            onPress={() => {nav.navigate("PreSale")}}/>
                         )
                     }
                     { userRoles['gate_pass'] === '1' && (
