@@ -40,11 +40,13 @@ const DashboardScreen = () => {
     const [selectedVersion, setSelectedVersion] = useState();
     const [selectedDoc, setSelectedDoc] = useState();
     const [docNo, setDocNo] = useState();
+    const [gatePassNo, setGatePassNo] = useState();
 
     //      Modals Visibility
-    const [saleDiffModalVisible, setSaleDiffModalVisible] = useState(false);
-    const [activeSessionModalVisible, setActiveSessionModalVisible] = useState(false);
-    const [workflowModalVisible, setWorkFlowModalVisible] = useState(false);
+    const [saleDiffMV, setSaleDiffMV] = useState(false);
+    const [activeSessionMV, setActiveSessionMV] = useState(false);
+    const [workflowMV, setWorkFlowMV] = useState(false);
+    const [gatePassMV, setGatePassMV] = useState(false);
 
     const tableHead = ['Date', 'COD Limit', 'Last Update'];
     const tableData = [];
@@ -201,7 +203,7 @@ const DashboardScreen = () => {
     }
 
     const saleDiffHandler = () => {
-        setSaleDiffModalVisible(true);
+        setSaleDiffMV(true);
     }
 
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -212,7 +214,7 @@ const DashboardScreen = () => {
 
     const saleDiffSelectHandler = (inputDate) => {
         let forDate = dateFormat(inputDate);
-        setSaleDiffModalVisible(false);
+        setSaleDiffMV(false);
         nav.navigate('SaleDifference', {
             saleDate : forDate,
         })
@@ -223,7 +225,7 @@ const DashboardScreen = () => {
         if(selectedVersion === undefined || selectedVersion === "NA"){
             Alert.alert("Invalid Selection!!!", "Please select a version");
         }else{
-            setActiveSessionModalVisible(false);
+            setActiveSessionMV(false);
             nav.navigate("ActiveSession", {version: selectedVersion});
         }
     }
@@ -232,11 +234,22 @@ const DashboardScreen = () => {
         if(selectedDoc === undefined || selectedDoc === "NA" || docNo === undefined){
             Alert.alert("Invalid Input!!!", "Please provide valid inputs");
         }else{
-            setWorkFlowModalVisible(false);
+            setWorkFlowMV(false);
             nav.navigate("WorkFlow", {
                 docName: selectedDoc,
                 docNo: docNo
             })
+        }
+    }
+    
+    const vehGatePassHandler = () => {
+        if(gatePassNo){
+            setGatePassMV(false);
+            nav.navigate("VehGatePass", {
+                gPNo: gatePassNo,
+            })
+        }else{
+            Alert.alert("Invalid Gate Pass No#", "Please enter a valid gate pass number");
         }
     }
     
@@ -255,9 +268,9 @@ const DashboardScreen = () => {
         <ScrollView style={styles.container}>
             {/*         Sale Difference Modal */}
             <CustomModal 
-                isVisible={saleDiffModalVisible}             
+                isVisible={saleDiffMV}             
                 title="Select Date"
-                closeModal={() => setSaleDiffModalVisible(false)}>
+                closeModal={() => setSaleDiffMV(false)}>
                 <View>
                     <DatePickerView currentDate={selectedDate} onDateChange={handleDateChange}/>
                     <Button style={styles.modalBtn} onPress={() => saleDiffSelectHandler(selectedDate)}>Select</Button>
@@ -266,9 +279,9 @@ const DashboardScreen = () => {
         
             {/*         Active Session Modal */}
             <CustomModal 
-                isVisible={activeSessionModalVisible}             
+                isVisible={activeSessionMV}             
                 title="Select Version"
-                closeModal={() => setActiveSessionModalVisible(false)}>
+                closeModal={() => setActiveSessionMV(false)}>
                 <View>
                     <Picker
                         selectedValue={selectedVersion}
@@ -286,9 +299,9 @@ const DashboardScreen = () => {
 
             {/*         Work Flow Modal */}
             <CustomModal 
-                isVisible={workflowModalVisible}             
+                isVisible={workflowMV}             
                 title="Doc Work Flow"
-                closeModal={() => setWorkFlowModalVisible(false)}>
+                closeModal={() => setWorkFlowMV(false)}>
                 <View>
                     <Picker
                         selectedValue={selectedDoc}
@@ -317,6 +330,27 @@ const DashboardScreen = () => {
                     />                    
 
                     <Button style={styles.modalBtn} onPress={documentWorkFlowHandler}>Proceed</Button>
+                </View>
+            </CustomModal>
+
+            {/*         Update Vehicle GP Modal */}
+            <CustomModal 
+                isVisible={gatePassMV}             
+                title="Vehicle Gate Pass"
+                closeModal={() => setGatePassMV(false)}>
+                <View>                    
+                    <Input 
+                        inputMode="numeric"
+                        keyboardType="numeric"
+                        cursorColor={Colors.gray600}
+                        placeholder="GatePass No#"
+                        placeholderTextColor={Colors.gray50}
+                        value={gatePassNo}
+                        onChangeText={(value) => {setGatePassNo(value)}}
+                        style={{ marginHorizontal: 15, marginBottom: 8, }}
+                    />                    
+
+                    <Button style={styles.modalBtn} onPress={vehGatePassHandler}>Submit</Button>
                 </View>
             </CustomModal>
             
@@ -369,14 +403,14 @@ const DashboardScreen = () => {
                         <GridItem 
                             source={require('../assets/moduleIcons/session.png')} 
                             text="Active Session"
-                            onPress={() => setActiveSessionModalVisible(true)}/>
+                            onPress={() => setActiveSessionMV(true)}/>
                         )
                     }
                     { userRoles['doc_work_flow'] === '1' && (
                         <GridItem 
                             source={require('../assets/moduleIcons/workflow.png')} 
                             text="Doc Work Flow"
-                            onPress={() => setWorkFlowModalVisible(true)}/>
+                            onPress={() => setWorkFlowMV(true)}/>
                         )
                     }
                 </View>
@@ -392,7 +426,8 @@ const DashboardScreen = () => {
                     { userRoles['gate_pass'] === '1' && (
                         <GridItem 
                             source={require('../assets/moduleIcons/gatepass.png')} 
-                            text="Update Vehicle.. GP"/>
+                            text="Update Vehicle.. GP"
+                            onPress={() => setGatePassMV(true)}/>
                         )
                     }
                     { userRoles['locked_session'] === '1' && (

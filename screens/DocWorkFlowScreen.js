@@ -47,6 +47,9 @@ const DocWorkFlowScreen = () => {
                         setLevelsData(parsedLevels);
                     } catch (error) {
                         console.log("Error Fetching Work Flow Data", error);
+                        Alert.alert("Invalid Document No/Name", "The Document No or name is invalid please provide accurate information", [
+                            {text: "Okay", onPress: () => {nav.reset({index: 0, routes: [{ name: 'Dashboard' }]})}}
+                        ])
                     }finally{
                         setIsLoading(false);
                     }

@@ -328,3 +328,40 @@ export const startSyncProcess = async () => {
     return response.text();
 }
 
+export const getVehGatePassData = async (gatePassNo) => {
+    const url = LINK + PATH + "get_gate_pass_dtl.php";
+    const data = {
+        "APP_ID": "030820210318",
+        "GATE_PASS": gatePassNo,
+    };
+    const response = await fetch(url, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            "Content-Type": "application/json charset=utf-8",
+        },
+        body: JSON.stringify(data),
+    }).catch(error => {
+        console.log(error);
+    });
+    return response.text();
+}
+
+export const updateVehGatePass = async (gatePassNo, vehicleGroup) => {
+    const url = LINK + PATH + "update_gate_pass_vehicle_group.php";
+    const data = {
+        "APP_ID": "030820210318",
+        "GATE_PASS": gatePassNo,
+        "VEHICLE_GROUP": vehicleGroup,
+    };
+    const response = await fetch(url, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            "Content-Type": "application/json charset=utf-8",
+        },
+        body: JSON.stringify(data),
+    }).catch(error => {
+        console.log(error);
+    });
+    return response.text();
+}
+

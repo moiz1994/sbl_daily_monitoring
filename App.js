@@ -21,6 +21,7 @@ import * as SplashScreen from'expo-splash-screen';
 import ActiveSessionScreen from './screens/ActiveSessionScreen';
 import DocWorkFlowScreen from './screens/DocWorkFlowScreen';
 import PreSaleScreen from './screens/PreSaleScreen';
+import UpdateGatePassScreen from './screens/UpdateGatePassScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -41,7 +42,6 @@ const AuthStack = () => {
 }
 
 const AuthenticatedStack = () => {
-  const authContext = useContext(AuthContext);
   return (
     <Stack.Navigator
       initialRouteName='Dashboard'
@@ -120,6 +120,14 @@ const AuthenticatedStack = () => {
         component={PreSaleScreen}
         options={{ 
           title: 'Pre-Sale Data'
+        }}
+      />
+
+      <Stack.Screen
+        name='VehGatePass'
+        component={UpdateGatePassScreen}
+        options={{ 
+          title: 'Vehicle Gate Pass'
         }}
       />
     </Stack.Navigator>
