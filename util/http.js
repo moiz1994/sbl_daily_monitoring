@@ -365,3 +365,19 @@ export const updateVehGatePass = async (gatePassNo, vehicleGroup) => {
     return response.text();
 }
 
+export const getLockedSession = async () => {
+    const url = LINK + PATH + "all_session_oracle.php";
+    const data = {
+        "APP_ID": "030820210318",
+    };
+    const response = await fetch(url, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            "Content-Type": "application/json charset=utf-8",
+        },
+        body: JSON.stringify(data),
+    }).catch(error => {
+        console.log(error);
+    });
+    return response.text();
+}

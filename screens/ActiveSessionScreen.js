@@ -1,4 +1,4 @@
-import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
+import { Alert, FlatList, RefreshControl, StyleSheet, Text, View } from "react-native";
 import BreadCrums from "../components/UI/BreadCrums";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
@@ -21,6 +21,7 @@ const ActiveSessionScreen = () => {
 
     const [isLoading, setIsLoading] = useState(true);
     const [isOnline, setIsOnline] = useState(false);
+    const [refresh, setRefresh] = useState(false);
 
     const [sessionData, setSessionData] = useState([]);
     const [allCheck, setAllCheck] = useState(false);
@@ -45,6 +46,7 @@ const ActiveSessionScreen = () => {
                         console.log("Error Fetching Active Sessions: ", error);
                     }finally{
                         setIsLoading(false);
+                        setRefresh(false);
                     }
                 }
                 fetchActiveSession();
@@ -53,7 +55,7 @@ const ActiveSessionScreen = () => {
                 Alert.alert("No Internet Connection", "Please check your internet connection and try again.")
             }
         });
-    }, [setIsOnline]);
+    }, [setIsOnline, refresh, setRefresh]);
 
     const handleSelectAllChange = (value) => {
         setAllCheck(value);
@@ -143,6 +145,12 @@ const ActiveSessionScreen = () => {
         }
     }
 
+    const refreshHandler = () => {
+        setRefresh(true);
+        setIsLoading(true);
+    }
+    
+
     let list;
     if (version === "12c") {
         list = (
@@ -156,6 +164,7 @@ const ActiveSessionScreen = () => {
                         setChecked={(value) => handleCheckboxChange(itemData.item, value)}
                     />
                 )}
+                refreshControl={ <RefreshControl refreshing={refresh} onRefresh={refreshHandler} /> }
             />
         );
     } else {
@@ -170,6 +179,7 @@ const ActiveSessionScreen = () => {
                         setChecked={(value) => handleCheckboxChange(itemData.item, value)}
                     />
                 )}
+                refreshControl={ <RefreshControl refreshing={refresh} onRefresh={refreshHandler} /> }
             />
         );
     }

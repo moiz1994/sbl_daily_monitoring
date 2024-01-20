@@ -22,6 +22,7 @@ import ActiveSessionScreen from './screens/ActiveSessionScreen';
 import DocWorkFlowScreen from './screens/DocWorkFlowScreen';
 import PreSaleScreen from './screens/PreSaleScreen';
 import UpdateGatePassScreen from './screens/UpdateGatePassScreen';
+import LockedSession from './screens/LockedSession';
 
 
 const Stack = createNativeStackNavigator();
@@ -128,6 +129,14 @@ const AuthenticatedStack = () => {
         component={UpdateGatePassScreen}
         options={{ 
           title: 'Vehicle Gate Pass'
+        }}
+      />
+
+      <Stack.Screen
+        name='LockedSession'
+        component={LockedSession}
+        options={{ 
+          title: 'Locked Session'
         }}
       />
     </Stack.Navigator>

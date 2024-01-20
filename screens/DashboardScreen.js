@@ -433,7 +433,8 @@ const DashboardScreen = () => {
                     { userRoles['locked_session'] === '1' && (
                         <GridItem 
                             source={require('../assets/moduleIcons/locked_session.png')} 
-                            text="Locked Session"/>
+                            text="Locked Session"
+                            onPress={() => nav.navigate("LockedSession")}/>
                         )
                     }
                 </View>
@@ -448,8 +449,8 @@ const DashboardScreen = () => {
                 { userRoles['cod_limit'] === '1' && (
                     <LinearGradient
                         colors={[Colors.gradientStart, Colors.gradientEnd]}
-                        start={{ x: 0, y: 0.5 }} // Starts at left center
-                        end={{ x: 1, y: 0.5 }} // Ends at right center
+                        // start={{ x: 0, y: 0.5 }} // Starts at left center
+                        // end={{ x: 1, y: 0.5 }} // Ends at right center
                         style={styles.codContainer}
                     >
                         <Text style={styles.codTitle}>COD Limit</Text>

@@ -68,18 +68,17 @@ const UpdateGatePassScreen = () => {
         if(isOnline){
             try {
                 setIsLoading(true);
-                const response = await updateVehGatePass(gPNo, selectedGroup);
-                console.log(response);
-                // if(response === "Success"){
-                //     Toast.show("Vehicle Group Updated Successfully", Toast.LONG);                    
-                //     nav.reset({
-                //         index: 0,
-                //         routes: [{ name: 'Dashboard' }],
-                //     })
-                // }else{
-                //     Toast.show("Error While Updating Vehicle Group: " + response, Toast.LONG);
-                //     console.log(response)
-                // }
+                const response = await updateVehGatePass(gPNo, selectedGroup);                
+                if(response === "Success"){
+                    Toast.show("Vehicle Group Updated Successfully", Toast.LONG);                    
+                    nav.reset({
+                        index: 0,
+                        routes: [{ name: 'Dashboard' }],
+                    })
+                }else{
+                    Toast.show("Error While Updating Vehicle Group: " + response, Toast.LONG);
+                    console.log(response)
+                }
                 setIsLoading(false);
             } catch (error) {
                 console.error('Error Updating Vehicle Group: ', error);
